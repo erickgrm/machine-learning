@@ -1,0 +1,361 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[bottom=1.4cm,top=1.4cm,left=1cm,right=1.3cm]{geometry}
+\usepackage[spanish,mexico]{babel}
+\usepackage[many]{tcolorbox}
+\tcbuselibrary{listings}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{xspace}
+\usepackage{color}
+
+\author{Erick García Ramírez}
+\begin{document}
+\begin{flushleft}
+    {\bf Tarea 1: Recordatorio de probabilidad}\\
+    {\bf Aprendizaje Automatizado}\\
+    {MCIC, 2019-II}\\
+    20 de Febrero de 2019
+\end{flushleft}
+\vspace{-6\baselineskip}
+\begin{flushright}
+    {\bf Alumno:} Erick García Ramírez\\
+     erick\_phy@ciencias.unam.mx\\
+\end{flushright}
+\vspace{2\baselineskip}
+\begin{enumerate}
+\item  \emph{Se usa el siguiente proceso aleatorio para meter 2 pelotas en una caja: se tira una moneda y
+se mete una pelota roja si sale águila o azul si sale sol. Posteriormente de esta caja se sacan
+repetidamente de forma aleatoria con reemplazo 3 pelotas, las cuales resultan rojas. ¿Cuál es
+la probabilidad de que las 2 pelotas de la caja sean rojas?}\\
+{\bf Soln.}  Sean $A$ el evento ``las dos pelotas en la caja son rojas'' y $T$ el evento ``las tres pelotas
+sacadas son rojas''. Buscamos $P(A|T)$. Note que $P(T|A)=1$ pues si ambas pelotas son rojas necesariamente las
+tres pelotas sacadas debieron ser rojas. También, por el proceso seguido para poner las pelotas en la caja
+(donde suponemos que la moneda usada es justa), sabemos que $P(A)=1/4$. Observe que si no ocurrió $A$, la 
+probabilidad de haber sacado tres veces una pelota roja es $(1/2)^3(2/3)$, es decir, $P(T|A^c)=1/12$.  
+Como último ingrediente notemos que por el teorema de la probabilidad total
+$P(T)=P(T|A)P(A)+P(T|A^c)P(A^c)=1\cdot 1/4+1/12\cdot 3/4=5/16$. Concluimos que:
+\[P(A|T)=\frac{P(T|A)P(A)}{P(T)}=\frac{1\cdot\frac{1}{4}}{\frac{5}{16}}=\frac{4}{5}.\]
+
+\item \emph{En una caja hay 3 playeras rojas y 5 verdes de talla grande, además de 2 playeras rojas y
+5 verdes de talla chica. Se saca de forma aleatoria y uniforme una playera de dicha caja y
+resulta ser roja. ¿Cuál es la probabilidad de que sea de talla grande?}\\
+{\noindent \bf Soln:} Sea $G$ el evento ``la playera sacada es de talla grande'' y $R$ el evento ``la playera
+sacada es roja''. Así, buscamos determinar $P(G|R)$, la probabilidad de que  ``la playera sacada es
+grande dado que es roja''. La
+probabilidad sencilla de $R$ es $P(R)=5/15$, pues hay 5 playeras rojas entre las 15 totales. Por otro
+lado, la probabilidad de $G\cap R$  es $P(G\cap R)=3/15$, pues hay 3 playeras rojas y grandes
+entre las 15 playeras totales.
+Por lo tanto tenemos que: 
+\[P(G| R)=\frac{P(G\cap R)}{P(R)}=\frac{3}{5}.\]
+\item \emph{Un aeropuerto cuenta con un sistema que es capaz de identificar correctamente si una persona
+es terrorista el 95\% de las veces y si una persona es un ciudadano honrado también el 95\% de
+las veces. Un informante alerta a las autoridades sobre la presencia de exactamente 1 terrorista
+en un avión con 100 pasajeros, por lo que las autoridades detienen al primer pasajero y el
+sistema detecta que es terrorista. ¿Cuál es la probabilidad de que esta persona realmente sea
+terrorista?}\\
+    {\bf Soln.} Sean $S$ el evento ``el sistema identificó a la persona como terrorista'', $T$ el  evento ``la
+    persona es un terrorista'' y $NT$ el evento ``la persona no es un terrorista'' (i.e. $NT= T^c$). Deseamos 
+    conocer $P(T|S)$, la probabilidad de que la persona sea terrorista dado que el sistema la identificó como
+    uno. Sabemos
+    que $P(S|T)=0.95$, pues el sistema identifica como terrorista a una persona que en verdad es terrorista el
+    95\% de las veces. También, $P(S|NT)=1-0.95=0.05$ pues el sistema identifica como terrorista a una persona
+    que no lo es (i.e. se equivoca) en  5\% de las veces. Como exactamente una persona entre los 100 pasajeros
+    es un terrorista, tenemos que $P(T)=1/100=0.01$ y que $P(NT)=1-P(T)=0.99$. 
+
+    Por lo tanto, 
+    \[P(T|S)=\frac{P(S|T)P(T)}{P(S|T)P(T)+P(S|NT)P(NT)} = \frac{(0.95)(0.01)}{(0.95)(0.01)+(0.05)(0.99)}=
+    0.1616.\]
+\item \emph{Un paciente obtiene un resultado positivo en una prueba de una enfermedad muy seria. Esta
+prueba es muy precisa: la probabilidad de que la prueba sea correcta (positivo o negativo) es
+de 0.99. Sin embargo, la enfermedad es extremadamente rara y sólo afecta a 1 de cada 10000
+personas. ¿Cuál es la probabilidad de que el paciente realmente tenga la enfermedad?}\\
+    {\bf Soln.} Sean $S$ el evento ``el resultado de la prueba es positivo'', $E$ el evento ``la persona tiene la
+    enfermedad'' y $NE$ el evento ``la persona no tiene la enfermedad''. Buscamos calcular $P(E|S)$. Sabemos que
+    la probabilidad de que la prueba dé un resultado positivo dado que la persona en verdad tiene la
+    enfermedad es de 0.99, i.e. 
+    $P(S|E)=0.99$. Como la prueba tiene una probabilidad de 0.01 de equivocarse, también sabemos que
+    $P(S|NE)=0.01$. Por último, la probabilidad general de que la persona tenga la enfermedad es
+    $P(E)=1/10000=0.0001$, y en consecuencia $P(NE)=1-P(E)=0.9999$.  Por lo tanto tenemos que: 
+    \[P(E|S)=\frac{P(S|E)P(E)}{P(S|E)P(E)+P(S|NE)P(NE)} = \frac{(0.99)(0.0001)}{(0.99)(0.0001)+(0.01)
+    (0.9999)}=0.0098\]
+
+\item \emph{Juan y Pedro tiran una moneda cada uno. Juan apuesta que ambas monedas caerán iguales
+y Pedro que caerán diferentes. Prueba que incluso si una de las monedas estuviera cargada, el juego
+seguiría siendo justo.}\\
+    {\bf Soln.} Supongamos que la moneda de Juan es justa y que la moneda de Pedro prodría no ser justa,
+    teniendo como probabilidad de obtener $S$ (sol) $p\in  [0,1]$. En consecuencia, la
+    probabilidad de que caiga $A$ (águila) al lanzar la moneda de Pedro es $(1-p)$. Al lanzar las dos 
+    monedas obtenemos el espacio muestral $\{SS,SA,AS,SS\}$; el evento que favorece a Juan es 
+    $X:=\{SS,AA\}$ y el que favorece a Pedro es $Y:=\{SA,AS\}$. Deseamos mostrar que $P(X)=P(Y)$.
+    Por la definición de $p$ arriba tenemos que $P(X)=P(SS)+P(AA)=\frac{1}{2}p+\frac{1}{2}(1-p)$ y
+    $P(Y)= \frac{1}{2}(1-p)+\frac{1}{2}p$. Claramente, $P(X)=\frac{1}{2}=P(Y)$. \hfill $\blacksquare$
+\item \emph{Un estudiante debe elegir una de las siguientes materias: matemáticas, física o química. Es
+igualmente probable que elija matemáticas o física y doblemente probable que elija química.
+Calcula las probabilidades de cada materia.}\\
+    {\bf Soln.} Sea $M$ el evento ``el estudiante elige matemáticas''. Similarmente se definen los eventos
+    $F$ y $Q$. Buscamos $P(M)$, $P(F)$ y $P(Q)$. Como el estudiande debe tomar alguna de 
+    las tres materias tenemos que $P(M\cup F\cup Q)=1$. Más aún, los eventos son disjuntos\footnote{Suponemos
+    que el enunciado del problema establece que el estudiante debe tomar exactamente una materia.}, 
+    así que $1=P(M)+P(F)+P(Q)$. Usando que $P(M)=P(F)$ y que $P(Q)=2P(M)$, tenemos que $1=4P(M)$.
+    Concluimos que $P(M)=P(F)=1/4$ y $P(Q)=1/2$. 
+\item \emph{En un concurso de TV el anfitrión le da a un concursante 3 puertas a elegir. Detrás de 2 de
+estas puertas hay una cabra y en la restante un auto. El concursante elige la puerta 1 y el
+anfitrión descubre la puerta 3, en la cual hay una cabra. Después de descubrir la puerta 2 el
+anfitrión le da la opción al concursante de cambiar la puerta 1 que había elegido originalmente
+por la puerta 2 aún sin descubrir. ¿Existe alguna diferencia si el concursante cambia de puerta
+2? Explica tu respuesta.}\\
+    {\bf Soln.} Sí hay una diferencia. Bajo la situación descrita, si el concursante decide cambiar 
+    su elección, la probabibilidad de haber elegido la puerta con el auto detrás es más alta que si no cambia. 
+
+    Sean $A_i$ el evento ``el auto está detrás de la puerta $i$", $E_i$ el evento ``el concursante elige la
+    puerta $i$'' y $P_i$ el evento ``el anfitrión abre la puerta $i$''. Deseamos mostrar que
+    $P(A_1|E_1,P_3)<P(A_2|E_2,P_3)$.
+
+    Notemos que $P(P_3|A_2,E_1)=1$ pues si el auto está detrás de la puerta 2 y el concursante elijió la
+    puerta 1, entonces al anfitrión no le queda más que abrir la puerta 3. Tenemos que:
+    \begin{align*}
+    P(A_2|E_1,P_3)=& \frac{P(A_2\cap E_1\cap P_3)}{P(E_1,P_3)}=\frac{P(P_3|E_1,A_2)P(E_1,A_2)}{P(E_1,P_3)}=\\
+    =& \frac{P(E_1,A_2)}{P(E_1,P_3)}=\frac{P(E_1)P(A_2)}{P(P_3|E_1)P(E_1)}=\frac{1\cdot 1/3}{2/3\cdot
+    1}=\frac{2}{3}.
+\end{align*}
+Así, la probabilidad de que al cambiar su elección el concursante encuentre el auto es de $2/3$. 
+
+En cambio, si el concursante mantiene su decisión (la puerta 1), la probabilidad es
+$P(A_1|E_1,P_3)=P(A_1)=\frac{1}{3}$. 
+
+Concluimos que $P(A_1|E_1,P_3)=1/3<2/3=P(A_2|E_1,P_3)$, y que al concursante le conviene cambiar su elección.
+
+\item \emph{Calcula la probabilidad de que en un cuarto de 10 personas, al menos 2 cumplan años el
+    mismo día. Repite el cálculo para 23, 50 y 75 personas y discute los resultados.}\\
+    {\bf Soln.} En general, la probabilidad de que en un grupo de $n$ personas no haya dos que cumplan años el
+    mismo día se puede calcular pensando en podemos elegir el cumpleaños para la primera persona de 365 formas
+    (cualquier día del año), para la segunda persona sólo tenemos 364 formas, para la tercera 363, etc. Así,
+    la probabilidad de que en un grupo de $n$ personas no haya dos que cumplan años el mismo día es:
+
+    \[q_n= \frac{365\cdot 364 \cdot \dots\cdot(365-n)}{365^n}=\frac{365!}{(365-n)!\cdot 365^n}.\]
+    Observe que la probabilidad buscada, la de que dos personas en un grupo de $n$ personas sí cumplan años el
+    mismo día es exactamente el complemento de $q_n$, i.e., dicha probabilidad es
+    \[p_n=1-q_n=1-\frac{365!}{(365-n)!\cdot 365^n}.\]
+    Para $n=10,23,50$ y $75$ tenemos que:
+    \begin{itemize}
+        \item $p_{10}=0.1169$
+        \item $p_{23}=0.5073$
+        \item $p_{50}=0.9703$
+        \item $p_{75}=0.9997$
+    \end{itemize}
+    
+\item \emph{Se tiran 2 dados y se registra el número máximo, ¿cuales son las probabilidades de los eventos
+    1, 2, 3, 4, 5, 6?}\\
+    {\bf Soln.} Sean $X$ y $Y$ las variables aleatorias que dan el resultado de lanzar el primer y el segundo
+    dado, respectivamente. Note que $X$ y $Y$ son independientes, pues los lanzamientos de los dados son
+    independientes, y tienen la misma distribución uniforme. Sea $Z$ la variable aleatoria dada como $\max \{X,Y\}$.
+    Buscamos $P(Z=i)$ para $i\in\{1,2,3,4,5,6\}$. 
+    Primero observemos que en general, para $x\in \mathbb R$,
+    \begin{align*}
+        P(Z\leq x)=& P(\max\{X,Y\}\leq x)=P(X\leq x,Y\leq x)\stackrel{X,Y\newline ind}{=}P(X\leq x)P(Y\leq
+        x)\stackrel{Dist X=Dist Y }{=}P(X\leq x)^2.
+    \end{align*}
+    Similarmente, $P(Z<x)=(P(X\leq x)-P(X=x))^2$.
+    Por lo tanto, 
+    \begin{align*}
+        P(Z=x)= & P(Z\leq x)-P(Z<x)=P(X\leq x)^2-(P(X\leq x)-P(X=x))^2\\
+        =& 2P(X\leq x)P(X=x)-P(X=x)^2.
+    \end{align*}
+    Para terminar, observe que para $i=1,2,3,4,5,6$, $P(X=i)=1/6$ y $P(X\leq i)=i/6$. Concluimos que
+    \begin{itemize}
+        \item $P(Z=1)=2\frac{1}{6}\cdot\frac{1}{6}-(\frac{1}{6})^2=\frac{1}{36}$
+        \item $P(Z=2)=2\frac{2}{6}\cdot\frac{1}{6}-(\frac{1}{6})^2=\frac{3}{36}$
+        \item $P(Z=3)=2\frac{3}{6}\cdot\frac{1}{6}-(\frac{1}{6})^2=\frac{5}{36}$
+        \item $P(Z=4)=2\frac{4}{6}\cdot\frac{1}{6}-(\frac{1}{6})^2=\frac{7}{36}$
+        \item $P(Z=5)=2\frac{5}{6}\cdot\frac{1}{6}-(\frac{1}{6})^2=\frac{9}{36}$
+        \item $P(Z=6)=2\frac{6}{6}\cdot\frac{1}{6}-(\frac{1}{6})^2=\frac{11}{36}$
+    \end{itemize}
+
+\item \emph{Prueba que la covarianza de 2 variables independientes es 0.}\\
+    {\bf Soln.} La covarianza $Cov(X,Y)$ de las variables aleatorias $X$ y $Y$ se puede calcular como 
+    $\mathbb E(XY)-\mathbb E(X)\mathbb E(Y)$.  Por lo tanto, para mostrar que $Cov(X,Y)=0$ basta probar 
+    que $\mathbb E(XY)=\mathbb E(X)
+    \mathbb E(Y)$. Haremos esto en el caso en que $X$ y $Y$ son variables aleatorias discretas; el caso continuo
+    es similar cambiando sumas por integrales. 
+    
+    Sean $f_X$ y $f_Y$ las funciones de densidad de $X$ y $Y$, respectivamente. Como $X$ y $Y$ son
+    independientes, la función de densidad conjunta $f_{X,Y}$ de $X$ y $Y$ cumple que
+    $f_{X,Y}(x,y)=f_X(x)f_Y(y)$ para cualesquiera $x$ y $y$. Entonces, efectivamente, 
+    \begin{align*}
+        \mathbb E(XY) :=& \sum_{x,y} xyf_{X,Y}(x,y) =\sum _{x,y}xyf_X(x)f_Y(y) \\
+        = & \sum _x\sum_y xf_X(x)yf_Y(y)=\sum _xxf_X(x)\cdot \sum _yyf_Y(y)= 
+        \mathbb E(X)\mathbb E(Y).\hspace{5.8cm} \blacksquare
+            \end{align*}
+\item \emph{Un alumno decide responder de forma aleatoria un examen en el que cada pregunta tiene
+5 opciones de las cuales solo 1 es correcta. Suponiendo que la probabilidad de acertar una
+pregunta es de 0.2 y que cada respuesta es independiente de las demás, calcula lo siguiente:}
+
+La probabilidad de acertar es $p=1/5$ y la de no acertar, en consecuencia, es $1-p=4/5$. La calificación de
+una pregunta tiene una distribución Bernoulli (prob. de exito $p$); un examen consta de una serie 
+de preguntas donde
+cada pregunta puede ser contestada correcta o incorrectamente. Por lo tanto, la calificación
+(= el número de aciertos) de un examen de $n$ preguntas tiene la distribución binomial 
+\[P(Cal=k)=\binom{n}{k}p^k(1-p)^{n-k}.\]
+Las preguntas debajo se responden aplicando esta fórmula. 
+\begin{itemize} 
+
+\item La probabilidad de tener 10, 20 y 40 aciertos si el examen consiste de 50 preguntas\\
+    {\bf Soln.} En este caso $n=50$, y
+    \begin{itemize}
+        \item si el número de aciertos debe ser 10, $k=10$ y la probabilidad buscada es
+            \[P(Cal=10)=\binom{50}{10}\left(\frac{1}{5}\right)^{10}\left(\frac{4}{5}\right)^{40}=0.13981\]
+        \item si el número de aciertos debe ser 20, $k=20$ y la probabilidad buscada es
+            \[P(Cal=20)=\binom{50}{20}\left(\frac{1}{5}\right)^{20}\left(\frac{4}{5}\right)^{30}=
+            0.0006118\]
+        \item si el número de aciertos debe ser 40, $k=40$ y la probabilidad buscada es
+            \[P(Cal=40)=\binom{50}{40}\left(\frac{1}{5}\right)^{40}\left(\frac{4}{5}\right)^{10}=1.21273\times
+            10^{-19}\]
+    \end{itemize}
+\item La probabilidad de tener 10, 20 y 40 aciertos si el examen consiste de 40 preguntas\\
+    {\bf Soln.} En este caso $n=40$, y
+    \begin{itemize}
+        \item si el número de aciertos debe ser 10, $k=10$ y la probabilidad buscada es
+        \[P(Cal=10)=\binom{40}{10}\left(\frac{1}{5}\right)^{10}\left(\frac{4}{5}\right)^{30}=
+        0.10745\]
+        \item si el número de aciertos debe ser 20, $k=20$ y la probabilidad buscada es
+            \[P(Cal=20)=\binom{40}{20}\left(\frac{1}{5}\right)^{20}\left(\frac{4}{5}\right)^{20}=0.00001667\]
+        \item si el número de aciertos debe ser 40, $k=40$ y la probabilidad buscada es
+            \[P(Cal=40)=\binom{40}{40}\left(\frac{1}{5}\right)^{40}\left(\frac{4}{5}\right)^0=
+            1.0995\times 10^{-28}\]
+    \end{itemize}
+\item La probabilidad de tener 10, 20 y 40 errores si el examen consiste de 40 preguntas\\
+    {\bf Soln.} Tener $l$ errores es equivalente a tener $n-l$ aciertos, por lo tanto podemos seguir el
+    procedimiento de los casos anteriores. En este caso $n=40$, y
+    \begin{itemize}
+        \item si el número de errores debe ser 10, $l=10$ y la probabilidad buscada es
+            \[P(Cal=40-10)=\binom{40}{30}\left(\frac{1}{5}\right)^{30}\left(\frac{4}{5}\right)^{10}=
+            9.773\times 10^{-14}\]
+        \item si el número de errores debe ser 20, $l=20$ y la probabilidad buscada es
+            \[P(Cal=40-20)=\binom{40}{20}\left(\frac{1}{5}\right)^{20}\left(\frac{4}{5}\right)^{20}=0.00001667\]
+        \item si el número de errores debe ser 40, $l=40$ y la probabilidad buscada es
+            \[P(Cal=40-40)=\binom{40}{0}\left(\frac{1}{5}\right)^0\left(\frac{4}{5}\right)^{40}=0.000133\]
+    \end{itemize}
+\end{itemize}
+
+\item \emph{La estatura promedio de los alumnos de una universidad es de 169.83cm, con una desviación estándar
+        de 4.5cm. Suponiendo una distribución normal, calcula la probabilidad de que la estatura de un 
+        alumno dado:
+\begin{itemize}
+    \item Se encuentre entre 160cm y 180cm
+    \item Sea de al menos 150cm
+    \item Sea de máximo 180cm
+    \item Sea mayor a 160cm
+    \item Sea menor a 190cm
+\end{itemize}}
+{\bf Soln.} Sea $X$ la variable aleatoria de las estaturas de los alumnos. Por hipótesis sabemos que $X$ tiene
+una distribución normal con esperanza $\mu=169.83$ y desviación estándar $\sigma=4.5$. La distribución normal
+estándar se obtiene a partir de $X$ como $Z:=\frac{X-\mu}{\sigma}$. Usando las tabla de valores para $Z$,
+obtenemos lo siguiente.
+\begin{itemize}
+    \item La probabilidad de que la estatura de un alumno se encuente entre 160cm y 180cm,  es 
+        \[P\left(\frac{160-169.83}{4.5}\leq Z\leq \frac{180-169.83}{4.5}\right)=
+        P(-2.184\leq Z\leq 2.260)= 0.9736.\]
+        \item La probabilidad de que la estatura de un alumno sea de al menos 150cm,
+            \[P\left(Z\geq \frac{150-169.83}{4.5}\right)
+            =P(Z\geq -4.4067)= 1. \]
+        \item La probabilidad de que la estatura sea de máximo 180cm, es
+            \[P\left(Z\leq \frac{180-169.83}{4.5}\right)=P(Z\leq 2.260)= 0.9881. \]
+        \item La probabilidad de que la estatura sea mayor a 160cm, es
+            \[P\left(Z\geq \frac{160-169.83}{4.5}\right)=P(Z\geq -2.1844)= 0.9855.\] 
+        \item La probabilidad de que la estatura de un alumno sea menor a 190cm, es
+            \[P\left(Z\leq \frac{190-169.83}{4.5}\right)=P(Z\leq 4.4822)= 1.\] 
+\end{itemize}
+
+\item \emph{Una empresa de lámparas incandecentes observa que el número de componentes que fallan
+antes de cumplir 100 horas de funcionamiento es una variable aleatoria de Poisson. Si el
+número promedio de estos fallos es 8, calcule lo siguiente:}
+\begin{itemize}
+    \item ¿Cuál es la probabilidad de que falle 1 componente en 25 horas?\\
+        {\bf Soln.} Como el promedio en 100 horas es de 8 fallos y suponemos un proceso de Poisson (en
+        particular, que el promedio en un intervalo de tiempo es proporcional a la longitud del intervalo),
+        en un intervalo de 25 horas el promedio sería de 2. Por lo tanto: 
+        \[P(\text{no. de fallos en 25 horas} = 1)= \frac{2^1}{1!}e^{-2}=0.27067. \] 
+    \item ¿Cuál es la probabilidad de que fallen no más de 2 componentes en 50 horas?\\
+        {\bf Soln.} Análogo al caso de arriba, el promedio de fallos en un intervalo de 50 horas es de 4.
+        Por lo tanto:
+        \begin{align*}
+        P(\text{no. de fallos en 50 horas} \leq 2)=&  
+        +P(\text{no. de fallos en 50 horas} = 0)\\
+        +P(\text{no. de fallos en 50 horas} =1)
+        &+P(\text{no. de fallos en 50 horas} = 2)\\
+        &=\frac{4^0}{0!}e^{-4}+\frac{4^1}{1!}e^{-4}+\frac{4^2}{2!}e^{-4}=(1+4+8)e^{-4}=0.23810. \
+    \end{align*}
+        
+    \item ¿Cuál es la probabilidad de que fallen por lo menos 10 en 125 horas?\\
+    {\bf Soln.} Como antes, el promedio de fallos en un intervalo de 125 horas es de 10. Por lo tanto:
+    \begin{align*}
+    &P(\text{no. de fallos en 125 horas} \geq 10)=
+    \sum_{k\geq 10}\frac{10^k}{k!}e^{-10}=e^{-10}\sum_{k=0}^\infty \frac{10^k}{k!}-e^{-10}\sum
+        _{k=0}^{9}\frac{10^k}{k!}\\
+        & = e^{-10}e^{10}-e^{-10}\sum_{k=0}^{9}\frac{10^k}{k!}= 1- \sum
+        _{k=0}^{9}\frac{10^k}{k!}=1-0.45793=0.54207.
+    \end{align*}
+    \end{itemize}
+\item \emph{Una pareja tiene dos hijos. Asumiendo que la probabilidad de tener niño o niña es la misma,
+        entonces la probabilidad de que tengan un niño y una niña es de $\frac{1}{2}$, mientras que la 
+    probabilidad de que tengan 2 niños o 2 niñas es de $\frac{1}{4}$.}
+\begin{itemize}
+    \item \emph{Suponga que les pregunta si tienen al menos un niño y contestan que sí. ¿Cuál es 
+            la probabilidad de que tengan una niña?}\\
+    {\bf Soln.} Tenemos en general las siguientes posibilidades para la pareja de hijos: $A$ que ambos sean
+    niños, $B$ que el mayor sea niño y el menor niña, $C$ que el mayor sea niña y que el menor sea niño y $D$
+    que ambos sean niñas. Sin más información, la probabibilidad de que la pareja tenga un niño y una niña es
+    de $1/2$. Sin embargo, una vez que responden que tienen definitivamente un niño, de descarta
+    inmediatamente el evento $D$. Así, la probabilidad actualizada de tener una niña es: 
+    \[P(\text{tener una niña}|\text{se tiene un niño})=\frac{P(\{B,C\})}{P(\{A,B,C\})}=\frac{2}{3}.\]
+    Observe que antes de saber que tenían un niño la probabilidad de que tuvieran una niña era de $3/4$.
+    
+    \item \emph{Suponga que ve a uno de los hijos y es un niño. ¿Cuál es la probabilidad de que el otro
+        hijo sea niña?}
+        {\bf Soln.}  Sin mayor precisión, esta pregunta es idéntica a la anterior, en el sentido de que ver
+        que uno de los hijos es niño da la misma información (a saber, que la pareja tiene al menos un 
+        niño) que el hecho de que la pareja nos informe que tienen al menos un hijo. 
+
+        En cambio, esta pregunta se puede hacer diferente si se asume que hay cierta probabilidad asociada a
+        qué hijo se observa. Aquí hay opciones: podríamos decir que es más probable ver a un niño que a una
+        niña, o que es más probable ver al hijo mayor que al menor, etc. Al momento, la pregunta no es
+        suficientemente clara en lo que solicita.
+\end{itemize}
+\item \emph{Una baraja ordinaria de 52 cartas se divide aleatoriamente en 4 pilas de 13 cartas cada una.
+    Calcule la probabilidad de que cada pila tenga exactamente 1 As.}\\
+    {\bf Soln.} Sea $A$ el evento ``cada una de las cuatro pilas tiene un As''. De forma directa tenemos que
+    \[P(A)=\frac{\text{no. de particiones en las que cada una de las 4 pilas tiene un As}}
+        {\text{no. de posibles particiones en 4 pilas}}\]
+    Se obtiene:
+    \begin{align*}
+        P(A)=\frac{4\binom{48}{12}\cdot 3\binom{36}{12}\cdot 2 \binom{24}{12}\cdot 1\binom{12}{12}}
+        {\binom{52}{13}\cdot \binom{39}{13}\cdot \binom{26}{13}\cdot \binom {13}{13}} = \frac{24\cdot
+        48!\cdot (13!)^4}{52!\cdot (12!)^4}=\frac{24\cdot 13^4}{52\cdot 51\cdot 50\cdot 49}=0.10549.
+    \end{align*}
+    
+    Una forma más elegante de solucionar el problema es como sigue.
+    Para $i\in \{1,2,3,4\}$ sea $A_i$ el evento ``la pila número $i$ tiene exactamente un As''. Buscamos
+    $P(A_1\cap A_2\cap A_3\cap A_4)$. Tenemos que
+    \begin{align*}
+        P(A_1\cap A_2\cap A_3\cap A_4)  = & P(A_1|A_2\cap A_3\cap A_4)\cdot P(A_2|A_3\cap A_4)\cdot
+        P(A_3|A_4)\cdot P(A_4)
+    \end{align*}
+\item \emph{En una determinada etapa de una investigación criminal el inspector al mando está 60 \%
+convencido de la culpabilidad de un sospechoso. Supongamos, sin embargo, que una nueva
+pieza de evidencia muestra que el delincuente tiene una cierta característica (como la calvicie
+o el pelo castaño). Si el 20 por ciento de la población posee esta característica, ¿cuál es la
+certeza de la culpabilidad del sospechoso que tiene el inspector si resulta que el sospechoso
+tiene la característica?}\\
+{\bf Soln.} Buscamos ver si la probabilidad de ser culpable cambia dado que el sospechoso tiene la
+característica. Sea $C$ el evento ``el sospechoso es culpable'', $NC$ el evento ``el sospechoso no es
+culpable'' y $A$ el evento ``el sospechoso tiene la característica''. Deseamos conocer $P(C|A)$. 
+Sabemos que $P(A)=0.20$ y que $P(C)=0.60$. También, dado que estamos suponiendo que el sospechoso tiene 
+la característica tenemos que $P(A|C)=1$.  Note que si el sospechoso es de hecho inocente podemos decir
+que la probabilidad de que tenga la característica es la general para toda la población, i.e. $P(A|NC)=0.20$.
+Por lo tanto,
+\[P(C|A)=\frac{P(A|C)P(C)}{P(A|C)P(C)+P(A|NC)P(NC)}=\frac{0.60}{0.60+0.20\cdot 0.4}=0.8823  \]
+
+Concluimos que el inspector puede mejorar su convicción de que el sospechoso es culpable a un 88\%.
+\end{enumerate}
+\end{document}
