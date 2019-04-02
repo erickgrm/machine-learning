@@ -1,34 +1,67 @@
-class polynomial_linreg:
-    a = []
+##
+# Implementation of a polynomial mutiple regression
+# Author: Erick García Ramírez
+# MCIC-UNAM 2019-2
+# If param deg = 1, a standard multpiple linear regression is performed
+##
+import numpy as np
 
-    def modelMatrix(data,deg):
-        n = len(data)
-        m = len(data[0])
-        l = m*deg + 1
+class polynomial_linreg:
+    a = [] 
+    data = []
+    deg = 0
+    responses = []
+
+    def __init__(self,data,responses,deg): 
+            self.data = data
+            self.responses = responses
+            self.deg = deg
+
+    # Training function
+    # @param data: matrix of training set
+    #        y: vector of responses for training set        
+    #        deg: degree of polynomials to be used in the model, = 1 for multivariate linear regression
+    def fit(self):
+        X = polynomial_linreg.modelMatrix(self)
+        XT = np.transpose(X)
+        I = np.linalg.inv(np.dot(XT,X))
+        self.a = np.dot(np.dot(I,XT),self.responses)
+
+    # Build model matrix with polynomials of degree deg as basis functions
+    def modelMatrix(self):
+        n = len(self.data)
+        m = len(self.data[0])
+        l = m*self.deg + 1
     
         P = np.ndarray(shape=(n,l))
         for i in range(0,n):
             P[i][0] = 1
         for i in range(0,n):
             for j in range(0,m):
-                for k in range(1,deg):
-                    P[i][j+k+1] = data[i][j]**k
-        return P
-                
-    # Main function
-    # @param data: matrix of training set
-    #        y: vector of responsed for training set        
-    #        deg: degree of polynomials to be used in the model, = 1 for multivariate linear regression
-    def fit(data,responses,deg):
-        X = polynomial_linreg.modelMatrix(data,deg)
-        XT = np.transpose(X)
-        I = np.linalg.inv(np.dot(XT,X))
-        a = np.dot(np.dot(I,XT),responses)
-        return a
+                for k in range(1,self.deg + 1):
+                    P[i][j*self.deg + k] = self.data[i][j]**k
+        return P            
     
-    def coef(): return a
+    # Return the estimated parameters
+    def coef(self): return self.a
     
-    def intercept(): 
-        return a[0]
+    def intercept(self): return self.a[0]
     
-    def predict(x): return np.dot(x,a)
+    def expand(self,x):
+        l = len(self.a)
+        m = int((l - 1) /self.deg) 
+        ex = np.zeros(l)
+        for j in range(0,m):
+            for k in range(1,self.deg + 1):
+                ex[j*self.deg + k] = x[j*self.deg + k-1]**k
+        return ex
+
+    def predict(self,x): 
+        return np.dot(self.expand(x),self.a)
+
+    # Función suma de errores cuadrados
+    #def sqerrors(self,x,y):
+    #    s = 0.0
+    #    for i in range(0,len(x)):
+    #        s += (self.predict(x[i])-y[i][0])**2
+    #    return np.sqrt(s/2)
