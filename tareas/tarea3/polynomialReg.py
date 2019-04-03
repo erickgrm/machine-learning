@@ -22,10 +22,15 @@ class polynomial_linreg:
     #        y: vector of responses for training set        
     #        deg: degree of polynomials to be used in the model, = 1 for multivariate linear regression
     def fit(self):
-        X = polynomial_linreg.modelMatrix(self)
-        XT = np.transpose(X)
-        I = np.linalg.inv(np.dot(XT,X))
-        self.a = np.dot(np.dot(I,XT),self.responses)
+        q, r = np.linalg.qr(self.modelMatrix())
+        self.a = np.dot(np.dot(np.linalg.inv(r),np.transpose(q)), self.responses)
+        
+    # inestable
+    #def fit(self):
+    #    X = polynomial_linreg.modelMatrix(self)
+    #    XT = np.transpose(X)
+    #    I = np.linalg.inv(np.dot(XT,X))
+    #    self.a = np.dot(np.dot(I,XT),self.responses)
 
     # Build model matrix with polynomials of degree deg as basis functions
     def modelMatrix(self):
@@ -53,7 +58,8 @@ class polynomial_linreg:
         ex = np.zeros(l)
         for j in range(0,m):
             for k in range(1,self.deg + 1):
-                ex[j*self.deg + k] = x[j*self.deg + k-1]**k
+                ex[j*self.deg + k] = x[k-1]**k
+                #ex[j*self.deg + k] = x[j*self.deg + k-1]**k
         return ex
 
     def predict(self,x): 
