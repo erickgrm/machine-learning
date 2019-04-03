@@ -25,7 +25,7 @@ class polynomial_linreg:
         q, r = np.linalg.qr(self.modelMatrix())
         self.a = np.dot(np.dot(np.linalg.inv(r),np.transpose(q)), self.responses)
         
-    # inestable
+    # unstable
     #def fit(self):
     #    X = polynomial_linreg.modelMatrix(self)
     #    XT = np.transpose(X)
@@ -55,10 +55,10 @@ class polynomial_linreg:
     def expand(self,x):
         l = len(self.a)
         m = int((l - 1) /self.deg) 
-        ex = np.zeros(l)
+        ex = np.ones(l)
         for j in range(0,m):
             for k in range(1,self.deg + 1):
-                ex[j*self.deg + k] = x[k-1]**k
+                ex[j*self.deg + k] = x[j]**k
                 #ex[j*self.deg + k] = x[j*self.deg + k-1]**k
         return ex
 
@@ -66,8 +66,8 @@ class polynomial_linreg:
         return np.dot(self.expand(x),self.a)
 
     # Función suma de errores cuadrados
-    #def sqerrors(self,x,y):
-    #    s = 0.0
-    #    for i in range(0,len(x)):
-    #        s += (self.predict(x[i])-y[i][0])**2
-    #    return np.sqrt(s/2)
+    def sqerror(self,x,y):
+        s = 0.0
+        for i in range(0,len(x)):
+            s += (self.predict(x[i])-y[i][0])**2
+        return np.sqrt(s/2)[0]
