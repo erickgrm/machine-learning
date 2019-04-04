@@ -5,6 +5,7 @@
 # If param deg = 1, a standard multpiple linear regression is performed
 ##
 import numpy as np
+from custom_routines import custom_routines as cr
 
 class polynomial_linreg:
     a = [] 
@@ -22,8 +23,13 @@ class polynomial_linreg:
     #        y: vector of responses for training set        
     #        deg: degree of polynomials to be used in the model, = 1 for multivariate linear regression
     def fit(self):
-        q, r = np.linalg.qr(self.modelMatrix())
-        self.a = np.dot(np.dot(np.linalg.inv(r),np.transpose(q)), self.responses)
+        M = cr.modelMatrix(self.data,self.deg)
+        MT = np.transpose(M)
+        self.a = np.dot(np.dot(cr.inv(np.dot(MT,M)),MT), self.responses)
+
+    #def fit(self):
+    #    q, r = np.linalg.qr(self.modelMatrix())
+    #    self.a = np.dot(np.dot(np.linalg.inv(r),np.transpose(q)), self.responses)
         
     # unstable
     #def fit(self):
