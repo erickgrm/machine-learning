@@ -4,6 +4,7 @@
 # MCIC-UNAM 2019-2
 ##
 import numpy as np
+from scipy.optimize import minimize
 
 class custom_routines:
 
@@ -41,3 +42,27 @@ class custom_routines:
             for i in range(0,len(M)):
                 error += (M[i]-y[i])**2
         return np.log(error/len(y))
+    
+    # Minise a function by the gradient descend algorithm
+    # @param fnc function to minimise
+    #        gdf espression for the gradient of fnc
+    #        theta0 starting point of the algorithm, use 0 as default
+    #        alpha the learning rate
+    #        error the permissible error, use 10^-7 as defualt
+    def gd_minimize(fnc, gdf, theta0, alpha, error):
+        max_it = 1000000
+        thetamin = theta0
+        temp = thetamin
+        e = 10.0
+        iter = 0
+
+        # Find minimum iteratively by gradient descend
+        while error < e and iter < max_it:
+            temp = thetamin
+            thetamin = thetamin - (alpha * gdf(thetamin))
+            iter +=1
+            e = np.abs(fnc(thetamin) - fnc(temp)) 
+        return list(thetamin), fnc(thetamin) 
+
+#    def gd_minimize(fnc, gdf, theta0, alpha):
+ #       return gd_minimize(fnc, gdf, theta0, alpha, 0.0000001)
