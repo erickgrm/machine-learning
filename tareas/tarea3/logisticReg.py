@@ -1,5 +1,5 @@
 ##
-# Implementation of logistic  regression
+# Implementation of logistic regression
 # Author: Erick García Ramírez
 # MCIC-UNAM 2019-2
 ##
@@ -13,9 +13,9 @@ class logistic_regression:
     lambd = 0.0
 
     # Main routine to train the model
-    # @param features matrix of features
-    #        responses vector of corresponding responses
-    #        lambd factor for l2 regularization; if 0, no regularization is applied
+    # @param features: matrix of features
+    #        responses: vector of corresponding responses
+    #        lambd: factor for l2 regularization; if 0, no regularization is applied
     # It is assume features has first column of ones, so the 
     # intercept is estimated directly 
     def fit(self, features, responses, lambd):
@@ -34,11 +34,13 @@ class logistic_regression:
 
     # Minimise a function by the gradient descend algorithm
     # @param gdf the gradient function
-    #        theta0 starting point of the algorithm, default vector of 1s
+    #        theta0 starting point of the algorithm, default vector of 1's
     #        alpha the learning rate, default 0.1
-    #        error the permissible error, use 10^-4 as defualt
+    #        error the permissible error, default 10^-4 
     def gd_minimize(self, gdf, theta0, alpha, error):
-        max_iter = 300 
+        #max_iter = 300 
+        max_iter = 150 
+        #max_iter = 1000 
         theta_min = theta0
         temp = theta_min
         e = 1.0
@@ -101,10 +103,8 @@ class logistic_regression:
     # NOT ACTUALLY NEEDED
     def E(self,theta):
         e = 0.0
-        print(len(self.responses))
         for i in range(0,len(self.responses)):
             pi = self.sigmoid(np.dot(theta, self.features[i]))
             yi = self.responses[i]
-            print(pi, yi)
             e += yi * np.log(pi) + (1-yi) * np.log(1-pi)
         return -e
