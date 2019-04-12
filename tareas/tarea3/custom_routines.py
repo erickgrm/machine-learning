@@ -45,7 +45,7 @@ class custom_routines:
 
     def diffcount(x,y):
         if len(x) != len(y):
-            System.out.println("Error: Incompatible sizes")
+            print("Error: Incompatible sizes")
             return -1
 
         count = 0

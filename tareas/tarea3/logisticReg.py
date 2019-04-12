@@ -24,7 +24,7 @@ class logistic_regression:
         self.lambd = lambd
 
         # Fix params for gradient descend algorithm
-        theta0 = np.ones(len(features[0]))
+        theta0 = np.zeros(len(features[0]))
         alpha = 0.1
         error = 0.0001
 
@@ -38,8 +38,8 @@ class logistic_regression:
     #        alpha the learning rate, default 0.1
     #        error the permissible error, default 10^-4 
     def gd_minimize(self, gdf, theta0, alpha, error):
-        #max_iter = 300 
-        max_iter = 150 
+        max_iter = 300 
+        #max_iter = 150 
         #max_iter = 1000 
         theta_min = theta0
         temp = theta_min
