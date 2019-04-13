@@ -77,3 +77,10 @@ class polynomial_linreg:
         for i in range(0,len(x)):
             s += (self.predict(x[i])-y[i][0])**2
         return np.sqrt(s/2)[0]
+
+    # Función de error cuadrático medio
+    def msqerror(self,x,y):
+        s = 0.0
+        for i in range(0,len(x)):
+            s += (self.predict(x[i])-y[i][0])**2
+        return np.sqrt(s/len(x))[0]

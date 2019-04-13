@@ -26,7 +26,7 @@ class logistic_regression:
         # Fix params for gradient descend algorithm
         theta0 = np.zeros(len(features[0]))
         alpha = 0.1
-        error = 0.0001
+        error = 0.001
 
         # Find optimal vector of weights through the gradient descend algorithm
         self.coefs = self.gd_minimize(self.gdE, theta0, alpha, error)
@@ -51,12 +51,13 @@ class logistic_regression:
             temp = theta_min
             theta_min = theta_min - (alpha * gdf(theta_min))
             iter +=1
+            e = np.abs(np.dot(np.ones(len(temp)),temp-theta_min))
         return theta_min
     
     # The gradient of the loss function, general to accept l2 regularization with parameter lambd
     def gdE(self, theta): 
         dtheta = np.dot(np.transpose(self.features),self.p(theta)-self.responses)
-        return dtheta + 2 * self.lambd * np.dot(np.ones(len(theta)), theta)
+        return dtheta + (2 * self.lambd * np.dot(np.ones(len(theta)), theta))
 
     # Gradient without considering penalization at all, the above one is more general
     #def gdE(self, theta): 
@@ -71,18 +72,15 @@ class logistic_regression:
             arr[i] = self.sigmoid(np.dot(theta, self.features[i]))
         return arr
 
-
     # Return the estimated parameters
     def coef(self): return self.coefs
     
     def intercept(self): return self.coefs[0]
     
-
     # Return the probabilities of an instance x
     def proba(self, x):
         prob = self.sigmoid(np.dot(self.coefs, x))
         return [1-prob,prob]
-
 
     # Predicted classes for an array of instances
     def predict(self,X): 
@@ -92,6 +90,19 @@ class logistic_regression:
                 predicted[i] = 1
         return predicted
 
+    # Predicted probabilities for an array of instances
+    def predict_probas(self,X):
+        arr = np.zeros(len(X))
+        for i in range(0,len(X)):
+            arr[i] = self.proba(X[i])
+        return  arr
+
+    #
+    def decision(self, X):
+        arr = np.zeros(len(X))
+        for i in range(0,len(X)):
+            arr[i] = np.dot(self.coef(), X[i])
+        return  arr
 
     # Score, the proportion of correct predictions on the array X
     def score(self, X, y):

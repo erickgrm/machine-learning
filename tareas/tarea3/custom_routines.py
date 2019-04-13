@@ -41,7 +41,7 @@ class custom_routines:
             error = 0.0
             for i in range(0,len(M)):
                 error += (M[i]-y[i])**2
-        return np.log(error/len(y))
+        return error/len(y)
 
     def diffcount(x,y):
         if len(x) != len(y):
