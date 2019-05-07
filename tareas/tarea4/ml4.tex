@@ -1,0 +1,380 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[bottom=1.8cm,top=1.7cm,left=1.2cm,right=1.4cm]{geometry}
+\usepackage[spanish,mexico]{babel}
+\usepackage[many]{tcolorbox}
+\tcbuselibrary{listings}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{xspace}
+\usepackage{color}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{multicol}
+\usepackage{vwcol}
+\usepackage{txfonts}
+\usepackage{tabularx}
+
+\author{Erick García Ramírez}
+\begin{document}
+\begin{flushleft}
+    {\bf Tarea 4: Modelos gráficos probabilísticos}\\
+    {\bf Aprendizaje Automatizado}\\
+    {MCIC, 2019-II}\\
+    03 de Mayo de 2019
+\end{flushleft}
+\vspace{-6\baselineskip}
+\begin{flushright}
+    {\bf Alumno:} Erick García Ramírez\\
+     erick\_phy@ciencias.unam.mx\\
+\end{flushright}
+\vspace{2\baselineskip}
+\subsection*{Problema 1}
+\begin{itemize}
+    \item Proponer tres modelos para el sistema. 
+        \begin{multicols}{2}
+     Modelo (I)
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+        scale = 1,transform shape]
+
+  \node[state] (T) {$T$};
+  \node[state] (I) [below of=T] {$I$};
+  \node[state] (D_I) [above right of=I, xshift=1cm] {$D_I$};
+  \node[state] (A) [below of=I] {$A$};
+  \node[state] (D_A) [above left of=A,xshift=-0.5cm] {$D_A$};
+
+  \path (T) edge              node {$$} (I)
+        (D_I) edge              node {$$} (I)
+        (D_A) edge              node {$$} (A)
+        (I) edge              node {$$} (A);
+\end{tikzpicture}
+
+Distribución conjunta de la red: \[P(T)P(D_A)P(D_I)P(I|T,D_I),P(A|D_A,I)\]
+    \vfill\null
+    \columnbreak
+\end{center}
+\noindent En el modelo (I):
+    \begin{itemize}[$\bullet$]
+        \item La temperatura, si la alarma es defectuosa y si el indicador es defectuoso son variables no
+            condicionadas. 
+        \item Que la alarma se active ($A=1$) está condicionada al valor del indicador y de si la alarma
+            es defectuosa. 
+        \item El valor del indicador está condicionado a la temperatura y a que el indicador sea defectuoso. 
+        \item Se tiene el mayor número de independencias condicionales. Este modelo tiene el menor número de arcos de
+            una red que aún captura el comportamiento del sistema; quitar un arista revoca alguna de las funcionalidades
+            importantes del sistema.
+    \end{itemize}
+\end{multicols}
+\vspace{\baselineskip}
+\begin{multicols}{2}
+     Modelo (II) 
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+            scale = 1,transform shape]
+      \node[state] (T) {$T$};
+      \node[state] (I) [below of=T] {$I$};
+      \node[state] (D_I) [above right of=I,xshift=1cm] {$D_I$};
+      \node[state] (A) [below of=I] {$A$};
+      \node[state] (D_A) [above left of=A, xshift=-0.5cm] {$D_A$};
+
+      \path (T) edge              node {$$} (I)
+            (T) edge              node {$$} (D_I)
+            (T) edge              node {$$} (D_A)
+            (D_I) edge              node {$$} (I)
+            (D_A) edge              node {$$} (A)
+            (I) edge              node {$$} (A);
+    \end{tikzpicture}
+
+Distribución conjunta de la red: \[P(T)P(D_A|T)P(D_I|T)P(I|T,D_I),P(A|D_A,I)\]
+    \vfill\null
+    \columnbreak
+\end{center}
+En el modelo (II):
+    \begin{itemize}[$\bullet$]
+        \item Ahora se representa que el hecho de que la alarma y/o el indicador sean defectuosos
+             depende directamente de la temperatura. 
+        \item Se eliminan algunas independencias condicionales. E.g., en el Modelo (I) se tiene que $T\Perp A|I$, pero
+            ahora en el Modelo (II) el camino $TD_AA$ es activo y por lo tanto aquella independecia condicional ya no
+            se cumple. 
+    \end{itemize}
+\end{multicols}
+\newpage
+\begin{multicols}{2}
+     Modelo (III)
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+            scale = 1,transform shape]
+
+      \node[state] (T) {$T$};
+      \node[state] (I) [below of=T] {$I$};
+      \node[state] (D_I) [above right of=I,xshift=1cm] {$D_I$};
+      \node[state] (A) [below of=I] {$A$};
+      \node[state] (D_A) [above left of=A, xshift=-0.5cm] {$D_A$};
+
+      \path (T) edge              node {$$} (I)
+            (T) edge              node {$$} (D_I)
+            (T) edge              node {$$} (D_A)
+            (D_I) edge              [bend left=40] node {$$} (D_A)
+            (D_I) edge              node {$$} (I)
+            (D_A) edge              node {$$} (A)
+            (T) edge                [bend right=80,looseness=2.4] node {$$} (A)
+            (D_I) edge                [bend left=30] node {$$} (A)
+            (I) edge              node {$$} (A);
+    \end{tikzpicture}
+
+    Distribución conjunta de la red: \[P(T)P(D_A|T,D_I)P(D_I|T)P(I|T,D_I),P(A|T,D_A,D_I,I)\]
+    \vfill\null
+    \columnbreak
+\end{center}
+En el modelo (III):
+    \begin{itemize}[$\bullet$]
+        \item  E.g., ahora se representa que el hecho de que la alarma sea defectuosa depende directamente de que el
+            indicador lo sea. 
+        \item Se eliminan aún más independencias condicionales; e.g., en los modelos (I) y (II) se cumple que $D_I|\Perp
+            D_A|T$, sin embargo esto no se cumple en el Modelo (III) pues se tiene explícita la dependencia de 
+            $D_A$ con respecto a $D_I$.
+    \end{itemize}
+\end{multicols}
+    \item Suponemos que las variables I y T pueden tomar un máximo de 100 valores. La siguiente tabla muestra
+        cuántos valores se requieren conocer para calcular la probabilidad de los valores en cada nodo en cada modelo.
+        NVR abrevia ``Número de valores requeridos''.
+        %¿cuál sería el número de valores necesarios en cada nodo y el total en cada una de las redes?
+
+        \begin{center}
+        \begin{tabular}{|c|r|r|r|}%{|l{2cm} |p{4.4cm} |p{4.4cm} |p{4.4cm}|}
+            \hline
+            Variable & NVR en Modelo (I) & NVR en Modelo (II) & NVR
+            en Modelo (III) \\ 
+            \hline
+            T & 0 & 0 & 0 \\
+            \hline
+            $D_I$ & 0 & 100 & 100\\
+            \hline
+            $D_A$ & 0 & 100& 2*100 = 200 \\
+            \hline
+            I & 2*100 = 200 & 2*100 = 200 & 2*100 = 200\\
+            \hline
+            A & 2*100 = 200 & 2*100 = 200 & 100*2*100*2= 40000\\
+            \hline
+            \textbf{Total}& 400 &  600 & 40500 \\
+            \hline
+        \end{tabular}
+    \end{center}
+
+        El número de valores requeridos para la variable A en el Modelo (III) es muy grande ya que en este modelo
+        sugerimos que los valores de dicha variable dependen directamente de los de T (100 valores), $D_A$ (2 valores),
+        I (100 valores) y
+        $D_I$ (2 valores), lo que resulta en que se requieren conocer $100*2*100*2=40000$ valores para conocer las
+        probabilidades de los valores de A.
+    %    \begin{center}
+    %    \begin{tabular}{|c|r|r|r|}%{|l{2cm} |p{4.4cm} |p{4.4cm} |p{4.4cm}|}
+    %        \hline
+    %        Variable & \# de valores en Modelo (I) & \# de valores en Modelo (II) & \# de valores
+    %        en Modelo (III) \\ 
+    %        \hline
+    %        T & 100 & 100 & 100 \\
+    %        \hline
+    %        $D_I$ & 2 & 2*100 = 200& 2*2 = 4\\
+    %        \hline
+    %        $D_A$ & 2 & 2*100 = 200& 2*100 = 200 \\
+    %        \hline
+    %        I & 100*(2*100) = 20000 & 100*(2*100) = 20000 & 100*(2*100) = 20000\\
+    %        \hline
+    %        A & 2*(2*100) = 400 & 2*(2*100) = 400 & 2*100*100*2= 40000\\
+    %        \hline
+    %        \textbf{Total} & & & \\
+    %        \hline
+    %    \end{tabular}
+    %\end{center}
+
+\end{itemize}
+
+\subsection*{Problema 2}
+\begin{multicols}{2}
+    \columnsep=3cm
+\begin{center}
+    \hspace{1cm}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+        scale = 1,transform shape]
+
+  \node[state] (A) [] {$A$};
+  \node[state] (T) [below of=A] {$T$};
+  \node[state] (O) [xshift=0.4cm, below right of=T] {$O$};
+  \node[state] (X) [xshift=-0.4cm,below left of=O] {$X$};
+  \node[state] (C) [xshift=0.4cm, above right of=O] {$C$};
+  \node[state] (F) [xshift=0.4cm, above right of=C] {$F$};
+  \node[state] (B) [xshift=0.4cm, below right of=F] {$B$};
+  \node[state] (D) [xshift=0.4cm, below right of=O] {$D$};
+
+  \path (A) edge              node {$$} (T)
+        (T) edge              node {$$} (O)
+        (O) edge              node {$$} (X)
+        (C) edge              node {$$} (O)
+        (O) edge              node {$$} (D)
+        (F) edge              node {$$} (C)
+        (F) edge              node {$$} (B)
+        (B) edge              node {$$} (D);
+
+\end{tikzpicture}
+\end{center}
+\columnbreak
+\vspace*{1.5\baselineskip}
+\hspace*{1cm}
+{\small
+\begin{tabular}{c c}
+Etiqueta & Significado \\ 
+\hline
+A        & Visita a Asia\\
+T        & Tuberculosis\\
+C        & Cáncer de pulmón\\
+O        & Tuberculosis o Cáncer de pulmón\\
+F        & Fumador\\
+X        & Prueba de rayos X positiva\\
+B        & Bronquitis\\
+D        & Disnea
+\end{tabular}
+}
+\end{multicols}
+
+Recordemos que $X\Perp Y|Z$ si todos los caminos de $X$ a $Y$ son inactivos. Un camino de $X$ a $Y$ es
+        inactivo si contiene una tripleta inactiva; la tripleta $ABC$ es inactiva si: (a) $B$ está en $Z$ (i.e. $B$ es
+        observado) y $B$ es head-to-tail o tail-to-tail, o (b) $B$ es head-to-head y ningún descendiente de $B$,
+        incluyendo B,  está en $Z$.
+\begin{enumerate}[a.]
+    \item $T\Perp F|D$. \\
+        Afirmamos que no ocurre que $T\Perp F|D$. Se tienen dos caminos de T a F, TOCF y TODBF. Afirmamos que TOCF es activo.
+        Dicho camino contiene dos tripletas,
+        TOC y OCF. En TOC, O es head-to-head pero tiene como descendiente al nodo observado D. Por otro lado, en OCF, C
+        es head-to-tail pero C no es observado. Por lo tanto, TOCF no contiene ninguna tripleta inactiva. 
+    \item $C\Perp B|F$.\\
+        Afirmamos que sí ocurre que $C\Perp B|F$. Hay dos caminos de C a B, CFB y  CODB. Veamos que ambos son inactivos. CFB consiste de una sola tripleta, la
+        cual es inactiva ya que F es tail-to-tail y F es observado. Para CODB tenemos las tripletas COD y ODB. La
+        segunda de éstas es inactiva pues D es head to head y ni D ni ninguno de sus descendientes es observado. 
+    \item $A\Perp F|C$.\\
+        Afirmamos que sí ocurre que $A\Perp F|C$. Se tienen dos caminos de A a F, ATOCF y ATODBF. ATOCF es inactivo pues en la tripleta  OCF, C es head-to-tail y
+        observado. También ATODBF es inactivo pues en la tripleta ODB, D es head-to-head, no observado y ninguno de sus
+        descendientes es observado. Por lo tanto, ambos caminos son inactivo. 
+    \item $A\Perp F|C,D$. \\
+        Afirmamos que no ocurre que $A\Perp F|C,D$. Como  en el inciso anterior, sólo hay que considerar los  caminos ATOCF y
+        ATODBF. El primero de ellos sigue siendo inactivo, sin embargo, ahora ATODBF es activo. Ninguna de las tripletas
+        ATO, TOD, ODB y DBF es inactiva. En el inciso anterior ODB era inactiva, pero en este caso D es head-to-head
+        pero D sí es observado. Así, ODB es activa.
+\end{enumerate}
+
+\subsection*{Problema 3}
+\begin{multicols}{2}
+    \columnsep=3cm
+\begin{center}
+    \hspace{1cm}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+        scale = 1,transform shape]
+
+  \node[state] (E) [xshift=0.4cm] {$E$};
+  \node[state] (F) [xshift=-0.4cm, below left of=E] {$F$};
+  \node[state] (S) [xshift=0.4cm, below right of=E] {$S$};
+  \node[state] (V) [xshift=0.4cm, below right of=F] {$V$};
+  \node[state] (C) [xshift=0.4cm, below right of=S] {$C$};
+  \node[state] (D) [below left of=V] {$D$};
+
+  \path (E) edge              node {$$} (S)
+        (E) edge              node {$$} (F)
+        (F) edge              node {$$} (V)
+        (S) edge              node {$$} (V)
+        (V) edge              node {$$} (D)
+        (S) edge              node {$$} (C);
+
+\end{tikzpicture}
+\end{center}
+\columnbreak
+\vspace*{1.5\baselineskip}
+\hspace*{1cm}
+{\small
+\begin{tabular}{c c}
+Etiqueta & Significado \\ 
+\hline
+E        & Ébola \\
+F        & Fiebre\\
+S        & Sangrado\\
+V        & Visita clínica\\
+C        & Complicaciones\\
+D        & Ve a especialista\\
+\end{tabular}
+}
+\end{multicols}
+\begin{multicols}{2}
+    \columnsep=3cm
+    \begin{itemize}
+\item P (E = verdadero) = 0.01
+\item P (F = verdadero$\,|\,$E = sí) = 0.6
+\item P (F = verdadero$\,|\,$E = falso) = 0.1
+\item P (S = verdadero$\,|\,$E = verdadero) = 0.8
+\item P (S = verdadero$\,|\,$E = falso) = 0.05
+\item P (V = verdadero$\,|\,$F = verdadero, S = verdadero) = 0.8
+\item P (V = verdadero$\,|\,$F = verdadero, S = falso) = 0.5
+\item P (V = verdadero$\,|\,$F = falso, B = verdadero) = 0.7
+\item P (V = verdadero$\,|\,$F = falso, B = falso) = 0.0
+\item P (C = verdadero$\,|\,$S = verdadero) = 0.75
+\item P (C = verdadero$\,|\,$S = falso) = 0.1
+\item P (D = verdadero$\,|\,$V = verdadero) = 0.6
+\item P (D = verdadero$\,|\,$V = falso) = 0.0
+    \end{itemize}
+\end{multicols}
+\begin{enumerate}[a.]
+    \item Dados los valores arriba, la distribución conjunta de la red es:
+        \[P(E,F,S,V,D,C)=P(E)P(F|E)P(S|E)P(V|F,S)P(D|V)P(C|S)= (0.01)(0.6)(0.8)(0.8)(0.6)(0.75)=0.001728\]
+    \item Si un paciente es llevado al doctor (D = verdadero), usando pgmpy obtenemos que la probabilidad de que no
+        tenga ébola es 
+        \[P \left(\text{Ebola = falso}\,|\,\text{Visita especialista = verdadero}\right)=0.0013.\]
+    (Vea el código adjunto en Problema3\_t4.ipynb).    
+
+\item Convertimos el modelo anterior a un campo aleatorio de Markov.
+
+    \textbf{Paso1: Moralización}. La gráfica moral resulta de agregar aristas (no-dirigidas) entre cada par de padres de
+    cualquier nodo, y eliminar la dirección de todas las aristas. En este caso sólo se agrega una arista entre F y S, que son padres de V. La gráfica moral es:
+
+    \begin{center}
+        \hspace{1cm}
+    \begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=2cm,
+            scale = 1,transform shape]
+
+      \node[state] (E) [xshift=0.4cm] {$E$};
+      \node[state] (F) [xshift=-0.4cm, below left of=E] {$F$};
+      \node[state] (S) [xshift=0.4cm, below right of=E] {$S$};
+      \node[state] (V) [xshift=0.4cm, below right of=F] {$V$};
+      \node[state] (C) [xshift=0.4cm, below right of=S] {$C$};
+      \node[state] (D) [below left of=V] {$D$};
+
+      \path (E) edge              node {$$} (S)
+            (E) edge              node {$$} (F)
+            (F) edge              node {$$} (S)
+            (F) edge              node {$$} (V)
+            (S) edge              node {$$} (V)
+            (V) edge              node {$$} (D)
+            (S) edge              node {$$} (C);
+
+    \end{tikzpicture}
+    \end{center}
+
+    \textbf{Paso 2: Completar cliques}. Asegurar que para cada factor del tipo $P(v|x_1,\dots ,x_m)$ en la red
+    bayesiana, el conjunto $\{v,x_1,\dots, x_m$\} es ahora parte de un clique en la gráfica no dirigida.
+
+    En nuestro caso debemos considerar los factores $P(F|E)$, $P(S|E)$, $P(V|F,S)$, $P(D|V)$, y $P(C|S)$. Por lo
+    tanto, tenemos que asegurar que cada uno de los siguientes conjuntos  está contenido en un clique: $\{F,E\}$,
+    $\{S,E\}$, $\{V,F,S\}$, $\{D,V\}$ y $\{C,S\}$. Se puede ver que esto ya se cumple para la gráfica arriba
+    mostrada, y, por lo tanto, esa es la gráfica dirigida buscada. 
+
+    \item Dada la nueva información, la probabilidad $P(V=\text{verdadero}\,|\,F=\text{verdadero})$ ha aumentado. 
+    \begin{itemize}
+        \item ¿Qué probabilidades condicionales en la red se modifican debido a este cambio y en qué sentido?\\
+            Como ya mencionamos, $P(V|F)$ aumenta (ahora es más probable que una persona con fiebre visite la clínica).
+            En general, las probabilidades condicionales que cambiaran son de la forma $P(X|Z)$ siempre que no sea
+            cierto que $X\Perp F|Z$.  
+        \item Describe cualquier efecto que esto tenga en la proporción de personas con complicaciones
+        que visiten la clínica. Menciona exactamente qué probabilidades condicionales usaste para
+        llegar a tu conclusión.
+    \end{itemize}
+    \item Asume que alguien que no tiene fiebre va al doctor, ¿qué relación de independencia condicional
+existe en la distribución que no puede ser descubierta a través del grafo solamente?
+\end{enumerate}
+\end{document}
