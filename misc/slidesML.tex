@@ -1,0 +1,55 @@
+\documentclass{beamer}
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amssymb,amsthm}
+%\usetheme{Luebeck}
+%\usetheme{Boadilla}
+\usetheme{CambridgeUS}
+\title{Proyecto: Uso del internet para solicitar/comprar bienes y servicios}
+\subtitle{Aprendizaje Automatizado, 2019-II}
+\author{Erick García Ramírez}
+\institute{MCIC--IIMAS, UNAM}
+\date{28 de Febrero del 2019}
+
+\begin{document}
+\begin{frame}
+\maketitle
+\end{frame}
+\begin{frame}
+    \frametitle{Aspectos generales}
+    \begin{itemize}
+        \item Un estudio sobre comercio en línea. 
+        \item Base de datos con perfiles socio-económicos de individuos e información sobre su actividad de
+            compras en internet. 
+        \item {\bf Objetivos generales}: conocer sobre el perfil de compradores y por medio de predicciones
+            hacer recomendaciones a marketing. 
+        \end{itemize}
+\end{frame} 
+
+\begin{frame}
+    \frametitle{La base de datos} 
+    \begin{itemize}
+        \item DB: \emph{Individual Online purchases}
+        %\item DB: \emph{Individuals who ordered goods or services, over the internet, for private use,
+        %        in the last year}.
+        %\item \text{isoc\_bde15cbc}. 
+        \item \text{iso\_ec\_ibuy}. 
+        \item Fuente: Eurostat, EU Open Data Portal. 
+        \item Datos de los años 2009--2018.
+        \item $\approx 3,000,000$ tuplas. 
+        %\item $\approx 800,000$ tuplas. 
+        \item Variables: edad, sexo, nivel educativo, ingreso, país (dentro de la Unión Europea), empleo o
+            estudiante o
+            desempleado, vive en zona urbana o  ``de poco desarrollo'', participación (frecuencia) en 
+            compras por internet, categorías de artículos comprados.
+    \end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{Objetivos específicos}
+    \begin{itemize}
+        \item Prededir la frecuencia de compra a partir del perfil.
+        \item Predecir las categorías más relevantes a un perfil.  
+        \item Determinar cuáles aspectos del perfil influyen más (información para marketing).  
+        \end{itemize}
+\end{frame} 
+\end{document}
