@@ -1,0 +1,597 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[bottom=1.8cm,top=1.7cm,left=1.2cm,right=1.4cm]{geometry}
+\usepackage[spanish,mexico]{babel} 
+\usepackage[many]{tcolorbox}
+\tcbuselibrary{listings}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{xspace}
+\usepackage{color}
+\usepackage{tikz} 
+\usetikzlibrary{arrows,automata}
+\usepackage{multicol}
+\usepackage{vwcol}
+\usepackage{txfonts}
+\usepackage{longtable}
+
+\author{Erick García Ramírez}
+\begin{document}
+
+\begin{verbatim}
+<ID>isoc\_ec\_ibuy\_DSD</ID>
+<Test>false</Test>
+<Truncated>false</Truncated>
+<Name isoc\_ec\_ibuy\_DSD</Name>
+<Prepared>2019-01-31T13:10:24</Prepared>
+<Sender id=EUROSTAT>
+<Name EUROSTAT</Name>
+</Sender>
+<Receiver id=XML>
+<Name XML File</Name>
+</Receiver>
+</Header>
+
+CodeList id=CL\_INDIC\_IS agencyID=EUROSTAT isFinal=true>
+Name Information society indicator
+\end{verbatim}
+
+    \begin{longtable}{|p{4cm}|p{12cm}|}
+    \hline
+    Code & Description \\
+    \hline
+I\_BHOLAC&  Online purchases: holiday accommodation \\
+    \hline
+I\_BOTA&  Online purchases: other travel arrangements (transport tickets, car hire, etc.) \\
+    \hline
+%I\_BUY3&  Last online purchase: in the last 3 months \\
+%    \hline
+%I\_B3\_12&  Last online purchase: between 3 and 12 months ago \\
+%    \hline
+%I\_BLT12&  Last online purchase: in the 12 months \\
+%    \hline
+%I\_BUMT12&  Last online purchase: more than a year ago \\
+%    \hline
+%I\_BUMT12X&  Individuals who ordered goods or services, over the Internet, for private use, more than a year ago or have never ordered \\
+%    \hline
+%I\_BUX&  Individuals who never ordered goods or services, over the Internet, for private use \\
+%    \hline
+I\_BFOOD&  Online purchases: Food/groceries \\
+    \hline
+I\_BFURN&  Online purchases: household goods \\
+    \hline
+I\_BFILM&  Online purchases: films/music \\
+    \hline
+%I\_BELRN&  Online purchases: e-learning material \\
+%    \hline
+I\_BBOOK&  Online purchases: books/magazines/e-learning material \\
+    \hline
+%I\_BBOOKNL&  Online purchases: books/magazines/newspapers \\
+%    \hline
+I\_BCLOT&  Online purchases: clothes, sports goods \\
+    \hline
+I\_BSOFT&  Online purchases: computer software \\
+    \hline
+%I\_BGOOD&  Online purchases: films/music or books/magazines/e-learning material or computer software \\
+%    \hline
+I\_BHARD&  Online purchases: computer hardware \\
+    \hline
+I\_BEEQU&  Online purchases: electronic equipment \\
+    \hline
+I\_BFIN&  Online purchases: shares/insurance/other financial services \\
+    \hline
+I\_BTICK&  Online purchases: tickets for events \\
+    \hline
+I\_BHOLS&  Online purchases: travel and holiday accommodation \\
+    \hline
+I\_BMED&  Online purchases: medecine \\
+    \hline
+I\_BTS&  Online purchases: telecom services \\
+    \hline
+I\_BOTHTH&  Online purchases: others \\
+    \hline
+%I\_BFILMO&  Online purchases: films/music, delivered or upgraded online \\
+%    \hline
+%I\_BEBOOKO&  Online purchases, downloaded or accessed from websites or apps: e-books \\
+%    \hline
+%I\_BMGNWO&  Online purchases, downloaded or accessed from websites or apps: e-magazines, e-newspapers \\
+%    \hline
+%I\_BBOOK1O&  Online purchases, downloaded or accessed from websites or apps: e-books, e-magazines/e-newspapers \\
+%    \hline
+%I\_BGOOD3O&  Online purchases, downloaded or accessed from websites or apps: films/music , e-books, e-magazines/e-newspapers \\
+%    \hline
+%I\_BGOOD1O&  Online purchases, downloaded or accessed from websites or apps: films/music, e-books, e-magazines/e-newspapers or computer software (incl. computer/video games, software upgrades) \\
+%    \hline
+%I\_BBOOKO&  Online purchases: books/magazines/e-learning material, delivered or upgraded online \\
+%    \hline
+%I\_BGSOFT&  Online purchases: video games software and upgrades \\
+%    \hline
+%I\_BOSOFT&  Online purchases: computer software other than video games and upgrades\\
+%    \hline
+%I\_BSOFTO&  Online purchases: computer software, delivered or upgraded online\\
+%    \hline
+%I\_BGOODO&  Online purchases: films/music or books/magazines/e-learning material or computer software, delivered or upgraded online\\
+%    \hline
+I\_BFDOM&  Online purchases: from national sellers\\
+    \hline
+I\_BFEU&  Online purchases: from sellers from other EU countries\\
+    \hline
+I\_BFFOR&  Online purchases: from sellers abroad (other EU or non EU countries)\\
+    \hline
+I\_BFWRLD&  Online purchases: from sellers from the rest of the world (non-EU)\\
+    \hline
+I\_BFUNK&  Online purchases: from sellers with unknown country of origin\\
+    \hline
+%I\_BFFOR\_PGD&  Online purchases from sellers abroad: physical goods (e.g. electronics, clothes, toys, food, groceries, books, CDs/DVDs)\\
+%    \hline
+%I\_BFFOR\_DWL&  Online purchases from sellers abroad: products downloaded or accessed from websites or apps (e.g. films, music, e-books, e-newspapers, games, paid applications)\\
+%    \hline
+%I\_BFFOR\_TRH&  Online purchases from sellers abroad: travel, accommodation or holiday arrangements (e.g. tickets and documents by mail or printed by oneself)\\
+%    \hline
+%I\_BFFOR\_OSV&  Online purchases from sellers abroad: other services (e.g. tickets for events received by mail, telecom subscriptions)\\
+%    \hline
+%I\_BFFOR\_TRHOSV&  Online purchases from sellers abroad: travel, accommodation or holiday arrangements or other services (e.g. tickets for events received by mail, telecom subscriptions)\\
+%    \hline
+I\_BF\_1\_2&  Frequency of online purchases in the last 3 months: 1 or 2 times\\
+    \hline
+I\_BF\_3-5&  Frequency of online purchases in the last 3 months: 3 to 5 times\\
+    \hline
+I\_BF\_6-10&  Frequency of online purchases in the last 3 months: 6 to 10 times\\
+    \hline
+I\_BF\_GT10&  Frequency of online purchases in the last 3 months: more than 10 times\\
+    \hline
+I\_BF\_HI&  Frequency of online purchases in the last 3 months: 6 times or more\\
+    \hline
+I\_IBV\_LT50&  Online purchases in the last 3 months for less than 50 euro\\
+    \hline
+I\_IBV\_50-99&  Online purchases in the last 3 months for between 50 and 99 euro\\
+    \hline
+I\_IBV\_HI&  Online purchases in the last 3 months for 100 euro or more\\
+    \hline
+I\_IBV\_100-499&  Online purchases in the last 3 months for between 100 and 499 euro\\
+    \hline
+I\_IBV\_500-999&  Online purchases in the last 3 months for between 500 and 999 euro\\
+    \hline
+I\_IBV\_GE1000&  Online purchases in the last 3 months for 1000 euro or more\\
+    \hline
+IND\_TOTAL&
+ All Individuals\\
+\hline
+Y0\_15&  Individuals, 15 years old or less\\
+\hline
+Y16\_19&  Individuals, 16 to 19 years old\\
+\hline
+Y16\_24&  Individuals, 16 to 24 years old\\
+\hline
+Y16\_29&  Individuals, 16 to 29 years old\\
+\hline
+Y20\_24&  Individuals, 20 to 24 years old\\
+\hline
+Y25\_29&  Individuals, 25 to 29 years old\\
+\hline
+Y25\_34&  Individuals, 25 to 34 years old\\
+\hline
+Y25\_54&  Individuals, 25 to 54 years old\\
+\hline
+Y25\_64&  Individuals, 25 to 64 years old\\
+\hline
+Y35\_44&  Individuals, 35 to 44 years old\\
+\hline 
+Y45\_54&  Individuals, 45 to 54 years old\\
+\hline
+Y55\_64&  Individuals, 55 to 64 years old\\
+\hline
+Y55\_74&  Individuals, 55 to 74 years old\\
+\hline
+Y65\_74&  Individuals, 65 to 74 years old\\
+\hline
+Y75\_MAX&  Individuals, 75 years old or more\\
+\hline
+Y16\_24LO&  Individuals aged 16-24 with low education\\
+\hline
+Y16\_24ME&  Individuals aged 16-24 with medium formal education\\
+\hline
+Y16\_24HI&  Individuals aged 16-24 with high formal education\\
+\hline
+Y25\_54LO&  Individuals aged 25 to 54 with low formal education\\
+\hline
+Y25\_54ME&  Individuals aged 25 to 54 with medium formal education\\
+\hline
+Y25\_54HI&  Individuals aged 25 to 54 with high formal education\\
+\hline
+Y25\_64LO&  Individuals aged 25 to 64 with low formal education\\
+\hline
+Y25\_64ME&  Individuals aged 25 to 64 with medium formal education\\
+    \hline
+Y25\_64HI&  Individuals aged 25 to 64 with high formal education\\
+    \hline
+Y55\_74LO&  Individuals aged 55 to 74 with low formal education\\
+    \hline
+Y55\_74ME&  Individuals aged 55 to 74 with medium formal education\\
+    \hline
+Y55\_74HI&  Individuals aged 55 to 74 with high formal education\\
+    \hline
+Y25\_64\_SALSELFFAM&  Individuals aged 25 to 64 who are employed \\%es, self-employed or family workers\\
+    \hline
+Y25\_64\_UNE&  Individuals aged 25 to 64 who are unemployed\\
+    \hline
+Y25\_64\_RETIROTH&  Individuals aged 25 to 64 who are retired or other inactive\\
+    \hline
+M\_Y16\_19&  Males, 16 to 19 years old\\
+    \hline
+F\_Y16\_19&  Females, 16 to 19 years old\\
+    \hline
+M\_Y16\_24&  Males, 16 to 24 years old\\
+    \hline
+F\_Y16\_24&  Females, 16 to 24 years old\\
+    \hline
+M\_Y16\_29&  Males, 16 to 29 years old\\
+    \hline 
+F\_Y16\_29&  Females, 16 to 29 years old\\
+    \hline
+M\_Y16\_74&  Males, 16 to 74 years old\\
+    \hline
+F\_Y16\_74&  Females, 16 to 74 years old\\
+    \hline
+M\_Y20\_24&
+ Males, 20 to 24 years old\\
+    \hline
+F\_Y20\_24&
+ Females, 20 to 24 years old\\
+    \hline
+M\_Y25\_29&
+ Males, 25 to 29 years old\\
+    \hline
+F\_Y25\_29&
+ Females, 25 to 29 years old\\
+    \hline
+M\_Y25\_54&
+ Males 25 to 54 years old\\
+    \hline
+F\_Y25\_54&
+ Females 25 to 54 years old\\
+    \hline
+M\_Y25\_64&
+ Males, 25 to 64 years old\\
+    \hline
+F\_Y25\_64&
+ Females, 25 to 64 years old\\
+    \hline
+M\_Y55\_74&
+ Males 55 to 74 years old\\
+    \hline
+F\_Y55\_74&
+ Females 55 to 74 years old\\
+    \hline
+%M\_I0\_2&
+% Males with low formal education\\
+%    \hline
+%F\_I0\_2&
+% Females with low formal education\\
+%    \hline
+%M\_I3\_4&
+% Males with medium formal education\\
+%    \hline
+%F\_I3\_4&
+% Females with medium formal education\\
+%    \hline
+%M\_I5\_8&
+% Males with high formal education\\
+%    \hline
+%F\_I5\_8&
+% Females with high formal education\\
+%    \hline
+%I0\_2&
+% Individuals with no or low formal education\\
+%    \hline
+%I3\_4&
+% Individuals with medium formal education\\
+%    \hline
+%I5\_8&
+% Individuals with high formal education\\
+%    \hline
+%CB\_EU\_FOR&
+% Individuals who are born in another EU Member State\\
+%    \hline
+%CB\_EXT\_EU&
+% Individuals who are born in non-EU country\\
+%    \hline
+%CB\_FOR&
+% Individuals who are foreign-born\\
+%    \hline
+%CB\_NAT&
+% Individuals who are native-born\\
+%    \hline
+%CC\_EU\_FOR&
+% Nationals of another EU-Member State\\
+%    \hline
+%CC\_EXT\_EU&
+% Nationals of non-EU country\\
+%    \hline
+%CC\_FOR&
+% Non-nationals\\
+%    \hline
+%CC\_NAT&
+% Nationals\\
+%    \hline
+%EMPL\_UNE&
+% Active labour force (employed and unemployed)\\
+%    \hline
+HHI\_Q1&  Individual living in a household with income in first quartile\\
+    \hline
+HHI\_Q2&  Individual living in a household with income in second quartile\\
+    \hline
+HHI\_Q3&  Individual living in a household with income in third quartile\\
+    \hline
+HHI\_Q4&  Individual living in a household with income in fourth quartile\\
+    \hline
+%IND\_DEG1&  Individuals living in densely-populated area (at least 500 inhabitants/Km²)\\
+%    \hline
+%IND\_DEG2&  Individuals living in intermediate urbanized area (between 100 and 499 inhabitants/Km²)\\
+%    \hline
+%IND\_DEG3&  Individuals living in sparsely populated area (less than 100 inhabitants/Km²)\\
+%    \hline
+%IND\_O1&  Individuals living in Objective 1 regions / 'Convergence' regions\\
+%    \hline
+%IND\_NO1&  Individuals living in Not Objective 1 regions / 'Regional Competitiveness and Employment' Region\\
+%    \hline
+%IND\_BROAD&  Individuals living in a household with broadband access\\
+%    \hline
+%IND\_BROADX&  Individuals living in a household with Internet access but with no broadband access\\
+%    \hline
+%ISCO\_ICT&  ICT professionals\\
+%    \hline
+%ISCO\_ICTX&  Non ICT professionals\\
+%    \hline
+%ISCO0\_5&  Non-manual including the armed forces\\
+%    \hline
+%ISCO6\_9&  Manual\\
+%    \hline
+%RETIR&  Retired Individuals\\
+%    \hline
+RETIR\_OTHER&  Retired and other inactive\\
+    \hline
+%RF\_GE1&  Individuals with at least one of the 3 following characteristics: 55 to 74 years old; low education; unemployed or inactive or retired\\
+%    \hline
+%RF\_GE2&  Individuals with at least two of the 3 following characteristics: 55 to 74 years old; low education; unemployed or inactive or retired\\
+%   \hline
+%SAL&  Employees\\
+%    \hline
+SAL\_SELF\_FAM&  Employed\\%Employees, self-employed, family workers\\
+    \hline
+%SELF\_FAM&  Self-employed, family workers\\
+%    \hline
+STUD&  Students\\
+    \hline
+UNE&  Unemployed\\
+    \hline
+%MD&  Mobile internet users\\
+%    \hline
+%MDX&  Non-users of mobile internet\\
+%    \hline
+%Y16\_29LO&  Individuals aged 16-29 with low formal education\\
+%    \hline
+%Y16\_29ME&  Individuals aged 16-29 with medium formal education\\
+%    \hline
+%Y16\_29HI&  Individuals aged 16-29 with high formal education\\
+%    \hline
+PC\_IND&  Percentage of individuals\\
+    \hline
+PC\_IND\_ILT12&  Percentage of individuals who used internet within the last year\\
+    \hline
+PC\_IND\_IU3&  Percentage of individuals who used internet in the last 3 months\\
+    \hline
+PC\_IND\_BLT12&  Percentage of individuals who ordered goods or services, over the internet, for private use, in the last year\\
+    \hline
+PC\_IND\_BUY3&  Percentage of individuals who purchased online in the last 3 months\\
+    \hline
+PC\_IND\_BFFOR&  Percentage of individuals who purchased online from sellers from other countries (EU or non-EU)\\
+    \hline
+\end{longtable}
+    Geopolitical entities
+    \begin{longtable}{|p{2.5cm}|p{8cm}|p{2.5cm}|p{8cm}|}
+    \hline
+EU28&  European Union (current composition)\\
+    \hline
+%EU27&  European Union (before the accession of Croatia)\\
+%    \hline
+%EU25&  European Union (25 countries)\\
+%    \hline
+%EU15&  European Union (15 countries)\\
+%    \hline
+%EA&
+% Euro area (EA11-2000, EA12-2006, EA13-2007, EA15-2008, EA16-2010, EA17-2013, EA18-2014, EA19)\\
+%    \hline
+BE& Belgium\\
+    \hline
+BG& Bulgaria\\
+    \hline
+CZ& Czechia\\
+    \hline
+DK& Denmark\\
+   \hline
+DE& Germany (until 1990 former territory of the FRG)\\
+    \hline
+EE& Estonia\\
+    \hline
+IE& Ireland\\
+    \hline
+EL& Greece\\
+    \hline
+ES& Spain\\
+    \hline
+FR& France\\
+    \hline
+HR& Croatia\\
+    \hline
+IT& Italy\\
+    \hline
+CY& Cyprus\\
+    \hline
+LV&  Latvia\\
+    \hline
+LT& Lithuania\\
+    \hline
+LU& Luxembourg\\
+    \hline
+HU& Hungary\\
+    \hline
+MT& Malta\\
+    \hline
+NL& Netherlands\\
+    \hline
+AT&Austria\\
+    \hline
+PL& Poland\\
+    \hline
+PT& Portugal\\
+    \hline
+RO& Romania\\
+    \hline
+SI& Slovenia\\
+    \hline
+SK& Slovakia\\
+    \hline
+FI& Finland\\
+    \hline
+SE&  Sweden\\
+    \hline
+UK&  United Kingdom\\
+    \hline
+IS&  Iceland\\
+    \hline
+NO& Norway\\
+    \hline
+CH&  Switzerland\\
+    \hline
+ME&  Montenegro\\
+    \hline
+MK&  Former Yugoslav Republic of Macedonia, the\\
+    \hline
+RS&  Serbia\\
+    \hline
+TR& Turkey\\
+    \hline
+BA&  Bosnia and Herzegovina\\
+    \hline
+XK&
+ Kosovo (under United Nations Security Council Resolution 1244/99)\\
+    \hline
+CA&  Canada\\
+    \hline
+\end{longtable}
+    Time formats 
+\begin{longtable}{|p{4cm}|p{12cm}|}
+    \hline
+P1Y&  Annual\\
+    \hline
+P6M&  Semi-annual\\
+    \hline
+P3M&  Quarterly\\
+    \hline
+P1M&  Monthly\\
+    \hline
+P7D&  Weekly\\
+    \hline
+P1D&  Daily\\
+    \hline
+PT1M&  Minutely\\
+    \hline
+    Name Frequency code list&\\
+    \hline
+A&   Annual\\
+    \hline
+S&  Half-yearly, semester\\
+    \hline
+Q&  Quarterly\\
+    \hline
+M&  Monthly\\
+    \hline
+W&  Weekly\\
+    \hline
+B&  Business week\\
+    \hline
+D&  Daily\\
+    \hline
+H&  Hourly\\
+    \hline
+N&  Minutely\\
+    \hline
+\end{longtable}
+    Data observations 
+\begin{longtable}{|p{4cm}|p{12cm}|}
+    \hline
+c&  confidential\\
+    \hline
+d&  definition differs (see metadata)\\
+    \hline
+e&  estimated\\
+    \hline
+f&  forecast\\
+    \hline
+n&  not significant\\
+    \hline
+p&  provisional\\
+    \hline
+r&  revised\\
+    \hline
+s&  Eurostat estimate\\
+    \hline
+u&  low reliability\\
+    \hline
+z&  not applicable\\
+    \hline
+b&  break in time series\\
+    \hline
+    \end{longtable}
+
+\begin{verbatim}
+<Concepts>
+<structure:ConceptScheme agencyID=EUROSTAT id=CONCEPTS isFinal=true>
+<structure:Name Concepts</structure:Name>
+<structure:Concept id=FREQ><structure:Name Frequency</structure:Name>
+</structure:Concept>
+<structure:Concept id=indic\_is><structure:Name Information society indicator</structure:Name>
+</structure:Concept>
+<structure:Concept id=ind\_type><structure:Name Individual type</structure:Name>
+</structure:Concept>
+<structure:Concept id=unit><structure:Name Unit of measure</structure:Name>
+</structure:Concept>
+<structure:Concept id=geo><structure:Name Geopolitical entity (reporting)</structure:Name>
+</structure:Concept>
+<structure:Concept id=TIME\_PERIOD><structure:Name Time period or range</structure:Name>
+</structure:Concept>
+<structure:Concept id=OBS\_VALUE><structure:Name Observation Value</structure:Name>
+</structure:Concept>
+<structure:Concept id=OBS\_STATUS><structure:Name Observation Status</structure:Name>
+</structure:Concept>
+<structure:Concept id=TIME\_FORMAT><structure:Name Time Format</structure:Name>
+</structure:Concept>
+</structure:ConceptScheme>
+</Concepts>
+    \end{verbatim}
+
+%<KeyFamilies>
+%<structure:KeyFamily id=isoc\_ec\_ibuy\_DSD agencyID=EUROSTAT isFinal=true isExternalReference=false><structure:Name isoc\_ec\_ibuy\_DSD</structure:Name>
+%
+%<structure:Components>
+%<structure:Dimension conceptSchemeRef=CONCEPTS conceptSchemeAgency=EUROSTAT conceptRef=FREQ codelistAgency=SDMX codelist=CL\_FREQ isFrequencyDimension=true/>
+%<structure:Dimension conceptSchemeRef=CONCEPTS conceptSchemeAgency=EUROSTAT conceptRef=indic\_is codelistAgency=ESTAT codelist=CL\_INDIC\_IS crossSectionalAttachDataSet=false crossSectionalAttachGroup=false crossSectionalAttachSection=true crossSectionalAttachObservation=false></structure:Dimension>
+%<structure:Dimension conceptSchemeRef=CONCEPTS conceptSchemeAgency=EUROSTAT conceptRef=ind\_type codelistAgency=ESTAT codelist=CL\_IND\_TYPE crossSectionalAttachDataSet=false crossSectionalAttachGroup=false crossSectionalAttachSection=true crossSectionalAttachObservation=false></structure:Dimension>
+%<structure:Dimension conceptSchemeRef=CONCEPTS conceptSchemeAgency=EUROSTAT conceptRef=unit codelistAgency=ESTAT codelist=CL\_UNIT crossSectionalAttachDataSet=false crossSectionalAttachGroup=false crossSectionalAttachSection=true crossSectionalAttachObservation=false></structure:Dimension>
+%<structure:Dimension conceptSchemeRef=CONCEPTS conceptSchemeAgency=EUROSTAT conceptRef=geo codelistAgency=ESTAT codelist=CL\_GEO crossSectionalAttachDataSet=false crossSectionalAttachGroup=false crossSectionalAttachSection=true crossSectionalAttachObservation=false></structure:Dimension>
+%<structure:TimeDimension conceptSchemeRef=CONCEPTS conceptSchemeAgency=EUROSTAT conceptRef=TIME\_PERIOD><structure:TextFormat textType=String></structure:TextFormat>
+%</structure:TimeDimension>
+%<structure:PrimaryMeasure conceptSchemeRef=CONCEPTS conceptSchemeAgency=EUROSTAT conceptRef=OBS\_VALUE>
+%<structure:TextFormat textType=Double></structure:TextFormat>
+%</structure:PrimaryMeasure>
+%
+%<structure:Attribute conceptRef=TIME\_FORMAT conceptSchemeRef=CONCEPTS conceptSchemeAgency=EUROSTAT codelistAgency=SDMX codelist=CL\_TIME\_FORMAT attachmentLevel=Series assignmentStatus=Mandatory></structure:Attribute>
+%<structure:Attribute conceptSchemeRef=CONCEPTS conceptSchemeAgency=EUROSTAT conceptRef=OBS\_STATUS codelistAgency=EUROSTAT codelist=CL\_OBS\_STATUS attachmentLevel=Observation assignmentStatus=Conditional crossSectionalAttachDataSet=false crossSectionalAttachGroup=false crossSectionalAttachSection=false crossSectionalAttachObservation=true><structure:TextFormat textType=String></structure:TextFormat>
+%</structure:Attribute>
+%</structure:Components>
+%</structure:KeyFamily>
+%</KeyFamilies>
+%
+%</Structure>
+\end{document}
