@@ -1,0 +1,87 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish,mexico]{babel}
+\usepackage{amsmath, amsthm,amssymb}
+\usepackage[shortlabels]{enumitem}
+\setenumerate{itemsep=0pt}
+\usepackage[bottom=2.54cm, top=2.54cm,inner=2.54cm,outer=2.54cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+%\renewcommand\refname{Bibliografía}
+\usepackage{listings}
+%\usepackage[many]{tcolorbox}
+%\tcbuselibrary{listings}
+\lstset{frame=tb,
+    showstringspaces=false,
+    %columns=flexible,
+    basicstyle={\ttfamily},
+    numberstyle=\tiny\color{black},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breakindent=0pt,
+    numbers=right,
+    numbersep=-8pt,
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3,
+    emph={ },
+    emphstyle={\color{red}},
+    literate=
+             {á}{{\'a}}1
+             {é}{{\'e}}1
+             {í}{{\'i}}1
+             {ó}{{\'o}}1
+             {ú}{{\'u}}1
+             {ñ}{{\~n}}1
+}
+
+\begin{document}
+\title{Proyecto de Aprendizaje Automatizado:\\
+{\Large Un estudio sobre el uso del internet para comprar bienes}}
+\author{Erick García Ramírez\footnote{
+erick\_phy@ciencias.unam.mx, MCIC, IIMAS--UNAM.}}
+
+\maketitle
+\begin{abstract}
+\noindent 
+\end{abstract}
+
+%\vspace{\baselineskip}
+%{\noindent \bf Contenido}
+%\begin{enumerate}
+%    \item[1.] Introducción 
+%    \item[2.] Antecedentes
+%    \item[3.] Metodología
+%    \item[4.] Resultados
+%    \item[5.] Conclusiones
+%    \item[6.] Referencias
+%\end{enumerate}
+
+\section{Introducción}
+A lo largo de las últimas decadas las aplicaciones del Aprendizaje Automatizado han sido bastas y de
+naturaleza muy diversa. Algunas de ellas, como lo son los Sistemas Automatizados de Recomendación y la Detección de
+Operaciones Irregulares, tienen el objetivo de apoyar las actividades comerciales de empresas que ofertan
+sus bienes y/o servicios por medio del internet. En este trabajo desarrollaremos una aplicación del Aprendizaje
+Automatizado a este rubro.
+
+Para una empresa que oferta algún producto o un servicio resulta muy valioso distinguir---de entre todas
+las personas a las que dirige su publicidad---a aquellas personas que con mayor probabilidad comprarán o
+contrarán su oferta. Determinar las características de los \emph{buenos clientes} y los \emph{malos clientes} es importante pues 
+le a la empresa la oportunidad de optimizar sus estrategias de publicidad y de administración de clientes. 
+
+Con la proliferación de grandes datos sobre el consumo de bienes y contratación de servicios, y en particular con la enorme
+disponibilidad de datos de comercio en línea, las tareas de distinguir las características importantes de clientes es
+una aplicación clásica y bien desarrollada de la Minería de Datos y el Aprendizaje Automatizado (\cite[Capítulo I]{berry}).  
+
+\section{Antecedentes}
+\section{Metodología}
+\section{Resultados}
+\section{Conclusiones}
+
+\begin{thebibliography}{10}
+    \bibitem{berry} Michael Berry y Gordon Linoff. {\em Data Mining Techniques For Marketing, Sales, and Customer Relationship Management.} 
+        2da Edición. Wiley Publishing Inc., 2004. 
+\end{thebibliography}
+
+\end{document}
