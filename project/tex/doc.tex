@@ -1,12 +1,16 @@
-\documentclass[letterpaper,11pt]{article}
+\documentclass[twocolumn, letterpaper,11pt]{article}
 \usepackage[utf8x]{inputenc}
 \usepackage[spanish,mexico]{babel}
 \usepackage{amsmath, amsthm,amssymb}
 \usepackage[shortlabels]{enumitem}
 \setenumerate{itemsep=0pt}
-\usepackage[bottom=2.54cm, top=2.54cm,inner=2.54cm,outer=2.54cm]{geometry}
+\usepackage{multicol}
+%\usepackage[bottom=2.54cm, top=2.54cm,inner=2.54cm,outer=2.54cm]{geometry}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{abstract}
 %\renewcommand\refname{Bibliografía}
 \usepackage{listings}
 %\usepackage[many]{tcolorbox}
@@ -74,14 +78,163 @@ Con la proliferación de grandes datos sobre el consumo de bienes y contratació
 disponibilidad de datos de comercio en línea, las tareas de distinguir las características importantes de clientes es
 una aplicación clásica y bien desarrollada de la Minería de Datos y el Aprendizaje Automatizado (\cite[Capítulo I]{berry}).  
 
+En el presente trabajo aplicaremos técnicas de Aprendizaje Automatizado a los datos de venta de un producto por parte de una empresa, 
+con el objetivo de descubrir las características de las personas que con mayor probabilidad comprarán el producto. 
+
+
 \section{Antecedentes}
+El uso de la Minería de Datos y el Aprendizaje Automatizado para apoyar actividades comerciales tiene un impacto
+importante y una larga tradición, vea por ejemplo \cite{berry}\cite{big}\cite{tdk}.  Dentro de este contexto, el 
+\emph{perfilado de usuarios o clientes} es una de las tareas en que dichas disciplinas sobresalen. En trabajos como
+\cite{faw} y \cite{discov}.  
+
+Un \emph{perfil} es un conjunto de información que funge como representación de una persona, usuario o cliente\cite{cufo}. La información que
+conforma un perfil puede ser de naturaleza diversa; puede incluir, por ejemplo, datos conductuales, rasgos físicos y rasgos
+socio-económicos. La información que debe constituir un perfil típicamente se determina a partir del uso que
+se desea dar a dicho perfil. Por ejemplo, un perfil de un candidato a ingresar a alguna universidad
+incluye información sobre su rendimiento en niveles acádemicos precedentes, su rendimiento en exámenes de ingreso y, 
+posiblemente, algunos datos sobre su contexto socio-económico. En este caso la información necesaria para un perfil es
+especificada por el cómite encargado del proceso de selección de la universidad. 
+
+En muchos otros contextos especificar la información que debe constituir un perfil no es tan sencillo como en
+el ejemplo del párrrafo anterior. 
+
+
+El siguiente es el ejemplo que abordaremos en este trabajo. Cuando una empresa tiene la intención de lanzar un nuevo
+producto a la venta, o de simplemente mejorar la estrategia publicitaria sobre algún producto, 
+hay un gran interés en determinar qué personas serán sus potenciales compradores, es decir, es importante descubrir el perfil de los compradores 
+del producto. El descubrimiento exitoso de dicho perfil permite a la empresa diseñar una estrategia de publicidad adecuada
+para maximizar sus ventas y, en general, mejorar sus oportunidades para alcanzar sus metas comerciales.  Sin embargo, puede resultar
+complicado determinar por adelantado y con precisión cuáles serán los rasgos del perfil que más influirán en la decisión
+de compra del producto. 
+
+Frente a tal problema, el punto de vista más común en la actualidad es el de colectar la mayor información posible para
+formar un perfil provisional, para posteriormente analizar dichos datos y determinar entonces el perfil de cliente más
+preciso posible (en este caso, el de las personas que con mayor probabilidad comprarán el producto). Este proceso se
+lleva a cabo por medio de técnicas de Minería de Datos y Aprendizaje Automatizado. 
+
+
+Entre las técnicas utilizadas para el perfilado de usuarios y/o clientes se encuentran los árboles de decisión,
+los algoritmos de clustering y los  algoritmos de clasificación (vea \cite{mah}, donde  puede encontrar una tabla
+    comprensiva sobre las técnicas usadas para esta tarea). Cada uno de estos tiene cualidades o desventajas que las hacen valiosas o
+inapropiadas dependiendo del interés con el que se aborden. 
+
+Los árboles de decisión tienen la característica de dar una buen panorama de las características del perfil, con
+resultados interpretables de manera natural y de naturaleza cualitativa \cite[Capítulo 6]{berry}. Los algoritmos de clustering ofrecen
+una segmentación de los usuarios/clientes, subrayando aquellas características que les hacen ser similares. En cambio,
+los algoritmos de clasificación (e.g. máquinas de soporte vectorial y redes neuronales) ofrecen un gran poder de
+predicción a costa de probablemente perder la interpretabilidad de los resultados, e.g.,\cite{chen}. En combinación, estas y otras
+técnicas ayudan al investigador a definir el perfil. 
+
+Trabajos
 \section{Metodología}
+
+El conjunto de datos que usaremos en este trabajo es \emph{Individual Company Sales Data}, disponible en www.kaggle.com~
+\cite{kaggle}. Los datos corresponden a las ventas por internet de un producto por parte de una 
+empresa\footnote{El conjunto se presenta anonimizado, no se conoce ni el producto ni el nombre de la empresa}. Cada
+renglón en el conjunto corresponde a la información de un cliente.  Se colectan 14 datos sobre el cliente y una bandera
+que señala si el cliente dado compró el producto o no. La tabla~\ref{tab:1} describe la estructura y naturaleza del conjunto de datos.
+
+\begin{table}
+\begin{center}
+\scalebox{0.8}{
+\begin{tabular}{|p{1.6cm}|p{2.2cm}|p{3.3cm}|p{8cm}|}
+    \hline
+    \bf Columna & \bf Atributo & \bf Tipo de dato & \bf Valores\\
+    \hline 
+    0 &\bf\small flag & categórico nominal &  Y, N; si compró el producto \\ % si  compró el producto y `N' en caso contrario\\
+    \hline 
+    1 &\bf \small gender & categórico nominal & F, M\\ % si es mujer y `M' si es hombre\\ 
+    \hline
+    2 &\bf\small education & categórico ordinal & 0.lessHS, 1.HS, 2.SomeCollege, 3.Bach, 4.Grad \\ % Sin preparatoria terminada  \newline 1.HS: Preparatoria
+    %terminada \newline
+    %2.SomeCollege: Estudios universitarios incompletos\newline 3.Bach: grado universitario\newline 4.Grad: Con estudios
+    %de posgrado \\
+    \hline 
+    3 &\bf\small house\_val & númerico & en [0, 999999]\\
+    \hline 
+    4 &\bf\small age & categórico nominal & 1\_Unk, 2upto25, 3upto35, 4upto45, 5upto55, 6upto65, 7above65\\ %Edad desconocida\newline 2upto25: Edad$\leq
+    %25$\newline 3upto35: Edad $\leq 35$\newline 4upto45: Edad $\leq 45$\newline 5upto55: Edad$\leq 55$\newline 6upto65:
+    %Edad$\leq 65$\newline 7above65:  Edad$\geq 65$ 
+    \hline 
+    5 &\bf\small online & categórico nominal & Y, N; el cliente tiene experiencia en compras por internet\\
+    \hline
+    6 &\bf \small customer\_psy & categórico nominal & A--J; psicología del cliente, basaso en área de residencia\\
+    \hline
+    7 &\bf\small marriage & categórico nóminal & Y, N\\
+    \hline
+    8 &\bf\small children & categórico nominal & Y, N\\
+    \hline 
+    9 &\bf\small occupation & categórico nominal & Professional, Blue Collar, Retired, SalesService,
+       Others, Farm\\
+    \hline 
+    10 &\bf\small  mortgage & categórico nominal & 1Low, 2Med,  3High\\
+    \hline 
+    11 &\bf\small house\_owner & categórico nominal & Owner, Renter \\
+    \hline 
+    12 &\bf\small region & categórico nominal & West, South, Midwest, Northeast, Rest\\
+    \hline 
+    13 &\bf\small car\_prob & categórico ordinal & 1--9; probabilidad de que comprará un auto nuevo\\
+    \hline 
+    14 &\bf\small fam\_income & categórico ordinal & A--L; nivel del ingreso familiar, L es el más alto\\
+    \hline
+\end{tabular}}
+\end{center}
+\caption{\small La estructura de la base de datos.}
+\label{tab:1}
+\end{table}
+
+\vspace{\baselineskip}
+Comenzamos el trabajo sobre este conjunto de datos con un minado superficial de datos (describiremos a grandes rasgos
+la distribución de cada valor de los atributos). Las técnicas de Aprendizaje Automatizado aplicadas fueron: 
+
+\begin{itemize}
+    \item[(a)] Segmentación de los clientes por medio de clustering.
+    \item[(b)]  Ajuste de un modelo por regressión lógistica. 
+    \item[(c)] Ajuste de un modelo por máquinas de soporte vectorial.
+    \item[(d)] Análisis de componentes principales (y posterior re-entrenamiento de (a)--(c)). 
+\end{itemize}
+
+
+Ya que la base de datos es mixta, es decir, tiene tanto datos númericos como categóricos,
+debemos hacer hincapié sobre la preparación y preprocesamiento de los
+datos. Se tomaron los siguientes pasos y consideraciones para el análisis. 
+
+\begin{enumerate}[I.]
+    \item La columna 3 correspondiente a la valuación de vivienda se re-escaló al intervalo [0,1]. 
+    \item La columna 13 correspondiente a la probabilidad de comprar un auto nuevo se re-escaló a (0,1). 
+    \item Se aplicó one-hot-encoding para sustituir todos aquellos valores categóricos por valores númericos. 
+    \item En otra propuesta, antes de aplicar one-hot-encoding se cambiaron aquellos atributos de tipo categóricos
+        ordinal (tipo \emph{likert}, como el nivel del ingreso familiar) por valores númericos re-escalados a (0,1).
+        Posteriormente se aplicó one-hot-encoding a los atributos aún categóricos y se repitió (a)--(d).
+\end{enumerate}
+
+
 \section{Resultados}
 \section{Conclusiones}
 
 \begin{thebibliography}{10}
     \bibitem{berry} Michael Berry y Gordon Linoff. {\em Data Mining Techniques For Marketing, Sales, and Customer Relationship Management.} 
         2da Edición. Wiley Publishing Inc., 2004. 
+    \bibitem{big} Jared Dean. {\em Big Data, Data Mining, and Machine Learning: Value Creation for Business, Leaders and
+        Practitioners}. John Wiley  Sons, 2014.
+    \bibitem{tdk} TDK-technologies. {\em Business Intelligence, Data Mining and Machine Learning.} 
+        Disponible en: \url{www.tdktech.com/tech-talks/business-intelligence-data-mining%-machine-learning}. 
+    \bibitem{cufo} Ayse Cufoglu. {\em User Profiling-A Short Review}. International Journal of Computer Applications,
+        Volume 108-- No. 3, 2014.
+    \bibitem{faw} Tom Fawcett y Provost Foster. {\em Combining Data Mining and Machine Learning for Effective User
+        Profiling.} En KDD-96 Proceedings, págs. 8-13, AAAI, 1996.
+    \bibitem{discov} Alejandro Bellogín, Iván Cantador, Pablo Castells y Álvaro Ortigosa. {\em Discovering Relevant Preferences in a Personalised
+        Recommender System using Machine Learning Techniques}, en Preference Learning Workshop, en la 8th
+        European Conference on Machine  Learning and Principles and Practice of Knowledge Discovery in Databases, 2008. 
+    \bibitem{mah} Mahboobeh Harandi. {\em User Profiling in News Recommender Systems}. Disponible en:
+        \url{https://www.ntnu.no/wiki/download/attachments/86731314/User%20Profiling%20NRS.pdf?version%3}
+        \bibitem{chen} Q. Chen, A. Norcio y J. Wang. {\em Neural Network Based Stereotyping for User Profiles}. Neural
+            Computing and Applications No. 9, págs. 259--265,  2000.
+        \bibitem{kaggle} Usuario Mickey. {\em Individual Company Sales Data.} Disponible en:
+            \url{https://www.kaggle.com/mickey1968/individual-company-sales-data}. 
+
 \end{thebibliography}
 
 \end{document}
+
