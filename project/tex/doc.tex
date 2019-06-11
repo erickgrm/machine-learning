@@ -1,11 +1,11 @@
-\documentclass[twocolumn, letterpaper,11pt]{article}
+\documentclass[letterpaper,11pt]{article}
 \usepackage[utf8x]{inputenc}
 \usepackage[spanish,mexico]{babel}
 \usepackage{amsmath, amsthm,amssymb}
 \usepackage[shortlabels]{enumitem}
 \setenumerate{itemsep=0pt}
 \usepackage{multicol}
-%\usepackage[bottom=2.54cm, top=2.54cm,inner=2.54cm,outer=2.54cm]{geometry}
+\usepackage[bottom=2.54cm, top=2.54cm,inner=2.4cm,outer=2.2cm]{geometry}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true}
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
@@ -62,6 +62,7 @@ erick\_phy@ciencias.unam.mx, MCIC, IIMAS--UNAM.}}
 %    \item[6.] Referencias
 %\end{enumerate}
 
+\begin{multicols}{2}
 \section{Introducción}
 A lo largo de las últimas decadas las aplicaciones del Aprendizaje Automatizado han sido bastas y de
 naturaleza muy diversa. Algunas de ellas, como lo son los Sistemas Automatizados de Recomendación y la Detección de
@@ -135,12 +136,36 @@ empresa\footnote{El conjunto se presenta anonimizado, no se conoce ni el product
 renglón en el conjunto corresponde a la información de un cliente.  Se colectan 14 datos sobre el cliente y una bandera
 que señala si el cliente dado compró el producto o no. La tabla~\ref{tab:1} describe la estructura y naturaleza del conjunto de datos.
 
+
+Comenzamos el trabajo sobre este conjunto de datos con un minado superficial de datos (describiremos a grandes rasgos
+la distribución de cada valor de los atributos). Las técnicas de Aprendizaje Automatizado aplicadas fueron: 
+
+\begin{itemize}
+    \item[(a)] Segmentación de los clientes por medio de clustering.
+    \item[(b)]  Ajuste de un modelo por regressión lógistica. 
+    \item[(c)] Ajuste de un modelo por máquinas de soporte vectorial.
+    \item[(d)] Análisis de componentes principales PCA (y posterior re-entrenamiento de (a)--(c)). 
+\end{itemize}
+Ya que la base de datos es mixta, es decir, tiene tanto datos númericos como categóricos,
+debemos hacer hincapié sobre la preparación y preprocesamiento de los
+datos. Se tomaron los siguientes pasos y consideraciones para el análisis. 
+
+\begin{enumerate}[I.]
+    \item La columna 3 correspondiente a la valuación de vivienda se re-escaló al intervalo [0,1]. 
+    \item La columna 13 correspondiente a la probabilidad de comprar un auto nuevo se re-escaló a (0,1). 
+    \item Se aplicó one-hot-encoding para sustituir todos aquellos valores categóricos por valores númericos. 
+    \item En otra propuesta, antes de aplicar one-hot-encoding se cambiaron aquellos atributos de tipo categóricos
+        ordinal (tipo \emph{likert}, como el nivel del ingreso familiar) por valores númericos re-escalados a (0,1).
+        Posteriormente se aplicó one-hot-encoding a los atributos aún categóricos y se repitió (a)--(d).
+\end{enumerate}
+\end{multicols}
+
 \begin{table}
 \begin{center}
 \scalebox{0.8}{
-\begin{tabular}{|p{1.6cm}|p{2.2cm}|p{3.3cm}|p{8cm}|}
+\begin{tabular}{|c|c|c|p{8cm}|}
     \hline
-    \bf Columna & \bf Atributo & \bf Tipo de dato & \bf Valores\\
+    \bf Columna & \bf Atributo & \bf Tipo de dato & \bf\hspace{2.5cm} Valores\\
     \hline 
     0 &\bf\small flag & categórico nominal &  Y, N; si compró el producto \\ % si  compró el producto y `N' en caso contrario\\
     \hline 
@@ -184,32 +209,7 @@ que señala si el cliente dado compró el producto o no. La tabla~\ref{tab:1} de
 \label{tab:1}
 \end{table}
 
-\vspace{\baselineskip}
-Comenzamos el trabajo sobre este conjunto de datos con un minado superficial de datos (describiremos a grandes rasgos
-la distribución de cada valor de los atributos). Las técnicas de Aprendizaje Automatizado aplicadas fueron: 
-
-\begin{itemize}
-    \item[(a)] Segmentación de los clientes por medio de clustering.
-    \item[(b)]  Ajuste de un modelo por regressión lógistica. 
-    \item[(c)] Ajuste de un modelo por máquinas de soporte vectorial.
-    \item[(d)] Análisis de componentes principales (y posterior re-entrenamiento de (a)--(c)). 
-\end{itemize}
-
-
-Ya que la base de datos es mixta, es decir, tiene tanto datos númericos como categóricos,
-debemos hacer hincapié sobre la preparación y preprocesamiento de los
-datos. Se tomaron los siguientes pasos y consideraciones para el análisis. 
-
-\begin{enumerate}[I.]
-    \item La columna 3 correspondiente a la valuación de vivienda se re-escaló al intervalo [0,1]. 
-    \item La columna 13 correspondiente a la probabilidad de comprar un auto nuevo se re-escaló a (0,1). 
-    \item Se aplicó one-hot-encoding para sustituir todos aquellos valores categóricos por valores númericos. 
-    \item En otra propuesta, antes de aplicar one-hot-encoding se cambiaron aquellos atributos de tipo categóricos
-        ordinal (tipo \emph{likert}, como el nivel del ingreso familiar) por valores númericos re-escalados a (0,1).
-        Posteriormente se aplicó one-hot-encoding a los atributos aún categóricos y se repitió (a)--(d).
-\end{enumerate}
-
-
+\begin{multicols}{2}
 \section{Resultados}
 \section{Conclusiones}
 
@@ -235,6 +235,6 @@ datos. Se tomaron los siguientes pasos y consideraciones para el análisis.
             \url{https://www.kaggle.com/mickey1968/individual-company-sales-data}. 
 
 \end{thebibliography}
-
+\end{multicols}
 \end{document}
 
