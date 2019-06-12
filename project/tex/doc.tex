@@ -4,7 +4,7 @@
 \usepackage{amsmath, amsthm,amssymb}
 \usepackage[shortlabels]{enumitem}
 \setenumerate{itemsep=0pt}
-\usepackage{multicol}
+\usepackage{multicol,caption}
 \usepackage[bottom=2.2cm, top=2.1cm,inner=2.0cm,outer=1.8cm]{geometry}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true}
@@ -12,33 +12,12 @@
 \usepackage{graphicx}
 \usepackage{abstract}
 %\renewcommand\refname{Bibliografía}
-\usepackage{listings}
-%\usepackage[many]{tcolorbox}
-%\tcbuselibrary{listings}
-\lstset{frame=tb,
-    showstringspaces=false,
-    %columns=flexible,
-    basicstyle={\ttfamily},
-    numberstyle=\tiny\color{black},
-    keywordstyle=\color{blue},
-    commentstyle=\color{dkgreen},
-    stringstyle=\color{mauve},
-    breakindent=0pt,
-    numbers=right,
-    numbersep=-8pt,
-    breaklines=true,
-    breakatwhitespace=true,
-    tabsize=3,
-    emph={ },
-    emphstyle={\color{red}},
-    literate=
-             {á}{{\'a}}1
-             {é}{{\'e}}1
-             {í}{{\'i}}1
-             {ó}{{\'o}}1
-             {ú}{{\'u}}1
-             {ñ}{{\~n}}1
-}
+\newenvironment{Figure}
+  {\par\medskip\noindent\minipage{\linewidth}}
+  {\endminipage\par\medskip}
+\newenvironment{Table}
+  {\par\medskip\noindent\minipage{\linewidth}}
+  {\endminipage\par\medskip}
 
 \begin{document}
 \title{Proyecto de Aprendizaje Automatizado:\\
@@ -77,7 +56,7 @@ le a la empresa la oportunidad de optimizar sus estrategias de publicidad y de a
 
 Con la proliferación de grandes datos sobre el consumo de bienes y contratación de servicios, y en particular con la enorme
 disponibilidad de datos de comercio en línea, las tareas de distinguir las características importantes de clientes es
-una aplicación clásica y bien desarrollada de la Minería de Datos y el Aprendizaje Automatizado (\cite[Capítulo I]{berry}).  
+una aplicación clásica y bien desarrollada de la Minería de Datos y el Aprendizaje Automatizado (\cite[Cap. I]{berry}).  
 
 En el presente trabajo aplicaremos técnicas de Aprendizaje Automatizado a los datos de venta de un producto por parte de una empresa, 
 con el objetivo de descubrir las características de las personas que con mayor probabilidad comprarán el producto. 
@@ -86,8 +65,9 @@ con el objetivo de descubrir las características de las personas que con mayor 
 \section{Antecedentes}
 El uso de la Minería de Datos y el Aprendizaje Automatizado para apoyar actividades comerciales tiene un impacto
 importante y una larga tradición, vea por ejemplo \cite{berry}\cite{big}\cite{tdk}.  Dentro de este contexto, el 
-\emph{perfilado de usuarios o clientes} es una de las tareas en que dichas disciplinas sobresalen. En trabajos como
-\cite{faw} y \cite{discov}.  
+\emph{perfilado de usuarios o clientes} es una de las tareas en que dichas disciplinas sobresalen.
+\cite{faw}\cite{discov}\cite{mah}\cite{chen} y \cite{segmen} exploran la aplicación del aprendizaje automatizado al
+perfilado de usarios o clientes.
 
 Un \emph{perfil} es un conjunto de información que funge como representación de una persona, usuario o cliente\cite{cufo}. La información que
 conforma un perfil puede ser de naturaleza diversa; puede incluir, por ejemplo, datos conductuales, rasgos físicos y rasgos
@@ -100,75 +80,67 @@ especificada por el cómite encargado del proceso de selección de la universida
 En muchos otros contextos especificar la información que debe constituir un perfil no es tan sencillo como en
 el ejemplo del párrrafo anterior. 
 
-
 El siguiente es el ejemplo que abordaremos en este trabajo. Cuando una empresa tiene la intención de lanzar un nuevo
 producto a la venta, o de simplemente mejorar la estrategia publicitaria sobre algún producto, 
 hay un gran interés en determinar qué personas serán sus potenciales compradores, es decir, es importante descubrir el perfil de los compradores 
-del producto. El descubrimiento exitoso de dicho perfil permite a la empresa diseñar una estrategia de publicidad adecuada
-para maximizar sus ventas y, en general, mejorar sus oportunidades para alcanzar sus metas comerciales.  Sin embargo, puede resultar
+del producto. El descubrimiento exitoso de dicho perfil permitiría a la empresa diseñar una estrategia publicitaria adecuada
+para maximizar sus ventas del producto. Sin embargo, puede resultar
 complicado determinar por adelantado y con precisión cuáles serán los rasgos del perfil que más influirán en la decisión
-de compra del producto. 
-
-Frente a tal problema, el punto de vista más común en la actualidad es el de colectar la mayor información posible para
-formar un perfil provisional, para posteriormente analizar dichos datos y determinar entonces el perfil de cliente más
-preciso posible (en este caso, el de las personas que con mayor probabilidad comprarán el producto). Este proceso se
-lleva a cabo por medio de técnicas de Minería de Datos y Aprendizaje Automatizado. 
-
+de compra del producto. Frente a tal problema, el punto de vista más común en la actualidad es el de colectar la mayor información posible para
+formar un perfil provisional, para posteriormente determinar un perfil más
+preciso (en este caso, el perfil de las personas que con mayor probabilidad comprarán el producto). El  proceso de
+determinar dicho perfil se lleva a cabo por medio de técnicas de Minería de Datos y Aprendizaje Automatizado. 
 
 Entre las técnicas utilizadas para el perfilado de usuarios y/o clientes se encuentran los árboles de decisión,
 los algoritmos de clustering y los  algoritmos de clasificación (vea \cite{mah}, donde  puede encontrar una tabla
-    comprensiva sobre las técnicas usadas para esta tarea). Cada uno de estos tiene cualidades o desventajas que las hacen valiosas o
-inapropiadas dependiendo del interés con el que se aborden. 
+comprensiva sobre las técnicas usadas para esta tarea). Cada uno de estas tiene cualidades o desventajas que las hacen valiosas o
+inapropiadas dependiendo de sus requisitos y condiciones generales del problema. Los árboles de decisión tienen la característica de 
+dar una buen panorama de las características del perfil, con
+resultados interpretables de manera natural y de naturaleza cualitativa \cite[Cap. 6]{berry}. Los algoritmos de clustering ofrecen
+una segmentación de los usuarios/clientes, subrayando aquellas características que les hacen ser similares. Los algoritmos de clasificación 
+(e.g. máquinas de soporte vectorial y redes neuronales) al ser combinadas con alguna técnica de selección de variables
+ofrecen también una forma de determinar los rasgos importantes de un perfil. A menudo, en combinación, estas y otras
+técnicas ayudan en la tarea de determinar el perfil más útil.
 
-Los árboles de decisión tienen la característica de dar una buen panorama de las características del perfil, con
-resultados interpretables de manera natural y de naturaleza cualitativa \cite[Capítulo 6]{berry}. Los algoritmos de clustering ofrecen
-una segmentación de los usuarios/clientes, subrayando aquellas características que les hacen ser similares. En cambio,
-los algoritmos de clasificación (e.g. máquinas de soporte vectorial y redes neuronales) ofrecen un gran poder de
-predicción a costa de probablemente perder la interpretabilidad de los resultados, e.g.,\cite{chen}. En combinación, estas y otras
-técnicas ayudan al investigador a definir el perfil. 
-
-Trabajos
 \section{Metodología}
-
 El conjunto de datos que usaremos en este trabajo es \emph{Individual Company Sales Data}, disponible en www.kaggle.com~
 \cite{kaggle}. Los datos corresponden a las ventas por internet de un producto por parte de una 
 empresa\footnote{El conjunto se presenta anonimizado, no se conoce ni el producto ni el nombre de la empresa}. Cada
-renglón en el conjunto corresponde a la información de un cliente.  Se colectan 14 datos sobre el cliente y una bandera
+renglón en el conjunto corresponde a la información de un cliente.  Se colectaron 14 datos sobre el cliente y una bandera
 que señala si el cliente compró el producto o no. Después de remover aquellos renglones en los que hay algún valor
 no conocido de algún atributo, el conjunto consta de 23558 muestras. La tabla~\ref{tab:1} describe la estructura y 
 naturaleza del conjunto de datos.
 
-%Comenzamos el trabajo sobre este conjunto de datos con un minado superficial de datos (describiremos a grandes rasgos
-%la distribución de cada valor de los atributos). 
-Las técnicas de Aprendizaje Automatizado aplicadas fueron: 
-
-\begin{itemize}
-    \item[(a)] Segmentación de los clientes por medio de clustering \cite{segmen}.
-    \item[(b)]  Ajuste de un modelo por regressión lógistica. 
-    \item[(c)] Ajuste de un modelo por máquinas de soporte vectorial.
-    \item[(d)] Análisis de componentes principales PCA \cite{book2} (y posterior re-entrenamiento de (a)--(c)). 
-\end{itemize}
-
-
-Ya que la naturaleza de los datos es mixta, es decir, hay tanto datos númericos como categóricos,
-debemos comentar sobre la preparación y el preprocesamiento de ellos. Se tomaron los siguientes pasos y consideraciones para el análisis. 
+Ya que la naturaleza de los datos es mixta, es decir, hay tanto datos númericos como categórico
+debemos comentar sobre la preparación y el preprocesamiento de ellos. Se tomaron los siguientes pasos de manera
+consecutiva. 
 
 \begin{enumerate}[I.]
-    \item En la columa 0, correspondiente a la bandera de si el cliente compró el producto o no, se cambió `Y' por 1
-        y `N' por 0.
-    \item La columna 3 correspondiente a la valuación de vivienda se re-escaló al intervalo [0,1]. 
-    \item La columna 13 correspondiente a la probabilidad de comprar un auto nuevo se re-escaló a (0,1). 
-    \item Se aplicó one-hot-encoding para sustituir todos aquellos valores categóricos por valores númericos. 
-    \item En otra propuesta, antes de aplicar one-hot-encoding se cambiaron aquellos atributos de tipo categóricos
-        ordinal (tipo \emph{likert}, como el nivel del ingreso familiar) por valores númericos re-escalados a (0,1).
-        Posteriormente se aplicó one-hot-encoding a los atributos aún categóricos y se repitió (a)--(d).
+    \item Todos aquellos atributos de tipo categórico ordinal se cambiaron directamente por números en $[0,1]$
+        (e.g., en fam\_income `A' corresponde a 0.0 y `L' a 1.0). 
+    \item house\_val se re-escaló al intervalo [0,1]. 
+    \item Para aquellos atributos categóricos binarios (e.g., `gender') se cambiaron los valores originales a 1 y 0. 
+    \item Para aquellos atributos de tipo categórico nominal que no son binarios se aplicó one-hot-encoding (sin
+            embargo, el punto donde esto se hace depende de la técnica de aprendizaje con la que se trabaja, vea el
+        código asociado\footnote{github}). 
 \end{enumerate}
+%Comenzamos el trabajo sobre este conjunto de datos con un minado superficial de datos (describiremos a grandes rasgos
+%la distribución de cada valor de los atributos). 
+Se realizaron las siguientes tareas de Aprendizaje Automatizado el sobre conjunto de datos.
+
+\begin{itemize}
+    \item[(a)] Se halla el subconjunto de atributos \emph{más significativos} mediante un modelo de regresión logística
+        y forward-selection~\cite[Cap. 6]{book1}.
+    \item[(b)] Se aplica un Análisis de Componentes Principales PCA \cite{book2} y posteriormente se ajusta un modelo de regresión
+        logística (seleccionado mediante validación cruzada). 
+    \item[(c)] Se explora la segmentación de los clientes por medio de clustering (K-means) \cite{segmen}.
+\end{itemize}
 \end{multicols}
 
 \begin{table}
 \begin{center}
-\scalebox{0.8}{
-\begin{tabular}{|c|c|c|p{8cm}|}
+\scalebox{0.85}{
+\begin{tabular}{|c|c|c|p{10cm}|}
     \hline
     \bf Columna & \bf Atributo & \bf Tipo de dato & \bf\hspace{2.5cm} Valores\\
     \hline 
@@ -217,11 +189,116 @@ debemos comentar sobre la preparación y el preprocesamiento de ellos. Se tomaro
 
 \begin{multicols}{2}
 \section{Resultados}
+El conjunto de 23558 renglones se particionó en un conjunto de entrenamiento y otro de prueba con la
+proporción 70--30\%. En (a) y (b) se trabaja con el conjunto de entrenamiento para la selección de variables. El
+conjunto de prueba se usa únicamente para observar la bondad del mejor modelo encontrado con respecto a predicciones
+sobre muestras nuevas. 
+\subsubsection*{(a) \emph{Forward-Selection} y regresión logística}
+El método de forward-selection\cite{book1} halla iterativamente el mejor modelo considerando desde uno hasta el total de atributos
+(en nuestro caso, hasta 14 atributos). El método funciona partiendo de algún
+modelo de clasificación, que en nuestro caso será el de regresión logística. También se requiere fijar el criterio
+para comparar los diferentes modelos; para nosotros este criterio será el de mayor área bajo la curva ROC (AUC). 
 
-\subsection*{Clustering} Aplicamos el algoritmo K-means~\cite[Capítulo 13]{book2}.
+\begin{Figure}
+    \centering
+    \includegraphics[width=1\textwidth]{AUC}
+    \captionof{figure}{\em \footnotesize Área bajo la curva ROC contra número de variables consideradas}
+    \label{fig:auc}
+\end{Figure}
+La figura~\ref{fig:auc} muestra el comportamiento de AUC con respecto al número de variables consideradas. Se puede
+observar (y analizar numéricamente) que la AUC aumenta significativamente desde 1 hasta 8 atributos, pero su crecimiento
+se desacelera para más de 8 atributos. La figura~\ref{fig:score} soporta esta elección pues muestra que el score de los modelos varia de una
+forma similar con respecto al número de atributos.
+\begin{Figure}
+    \includegraphics[width=1\textwidth]{Score}
+\captionof{figure}{\em \small Score (para regresión logística) contra número de variables consideradas.}
+\label{fig:score}
+\end{Figure}
+ Por lo tanto, tomamos como subconjunto de \emph{atributos más
+importantes} a los 8 atributos que forward-selection halló considerando 8 atributos. Los atributos son:
+\begin{center} \em customer\_psy, age, education, online, gender, 
+car\_prob, mortgage, occupation
+\end{center}
+El modelo de regresión logística correspondiente alcanza un score de 0.706 sobre el conjunto de prueba. La matriz de
+confusión sobre
+el conjunto de prueba es:
+\[\begin{bmatrix}
+        & Predicted 0 & Predicted  1 \\
+   True 0 & 1830 & 1275\\
+   True 1 & 801 &3162
+ \end{bmatrix}\]
+ Adicionalmente, forward-selection da una idea de cuáles son los $n$ atributos más importantes para cada
+$n\leq 14$, vea la tabla~\ref{tab:fs}. 
+
+\begin{Table}
+\begin{center}
+\scalebox{0.8}{
+\begin{tabular}{|c|c|c|}
+    \hline 
+    $n$ & $n$ atr. más importantes & AUC \\
+    \hline
+    1 & customer\_psy & 0.626\\
+    \hline
+    2 &  age & 0.640\\
+    \hline
+    3 & education & 0.651\\
+    \hline 
+    4 & online & 0.659\\
+    \hline
+    5 & gender & 0.671\\
+    \hline 
+    6 & car\_prob& 0.675\\
+    \hline
+    7 & mortgage & 0.678\\
+    \hline
+    \bf 8 & \bf occupation &\bf 0.681\\
+    \hline
+    9 & child & 0.682\\
+    \hline
+    10 & house\_val & 0.682\\
+    \hline
+    11 & house\_owner & 0.682\\
+    \hline
+    12 & fam\_income & 0.681\\
+    \hline
+    13 & region & 0.682\\
+    \hline
+    14 & \emph{todas} & 0.684\\
+    \hline
+\end{tabular}}
+\captionof{table}{\small \em Los $n$ atributos más importantes. La columnas 2 y 3 son acumulativas hacia abajo.}
+\label{tab:fs}
+\end{center}
+\end{Table}
+
+
+\subsubsection*{(b) PCA y regresión logística}
+El Ánalisis de Componentes Principales (PCA) es una técnica empleada para reducir la dimensionalidad de un conjunto de
+datos. PCA identifica los ejes en el espacio n-dimensional sobre los cuales el conjunto de datos tiene más variabilidad.
+Aunque PCA ayuda a eliminar algunos atributos (los que no añaden mucha información, i.e. varianza, al conjunto de datos)
+es casi siempre díficil interpretar su resultado. No es fácil extraer cuáles fueron los atributos que PCA eliminó. 
+Su valor en nuestro caso, es verificar si después de su aplicación, PCA mejora las cualidades de un modelo de regresión
+logística.
+
+Despues de aplicar one-hot-encoding al conjunto de datos de entrenamiento se cuenta con 51 columnas de
+atributos. Se aplica PCA para reducir su dimensionalidad. Aplicamos la versión PCA(A) donde $A\in (0,1)$ es la cantidad
+de varianza que deseamos cubrir al reducir la dimensión. Por ejemplo, para $A=0.85$ se pasa de 42 dimensiones a sólo 18.
+Para cada valor de $A$, se genera la matriz (de dimensión reducida) y con ella se encuentra el mejor modelo de regresión
+logística seleccionado por validación cruzada (\emph{10-fold}). Comparamos los modelos obtenidos por su AUC. 
+La figura~\ref{fig:pca} muestra el comportamiento de los modelos generados. 
+
+
+
+
+
+
+
+\subsubsection*{(c) Segmentación vía Clustering} 
+Aplicamos el algoritmo K-means~\cite[Cap. 13]{book2}.
 \section{Conclusiones}
 
 \begin{thebibliography}{10}
+        {\small 
     \bibitem{berry} M. Berry y G. Linoff. {\em Data Mining Techniques For Marketing, Sales, and Customer Relationship Management.} 
         2da Edición. Wiley Publishing Inc., 2004. 
     \bibitem{big} J. Dean. {\em Big Data, Data Mining, and Machine Learning: Value Creation for Business, Leaders and
@@ -244,7 +321,9 @@ debemos comentar sobre la preparación y el preprocesamiento de ellos. Se tomaro
     \bibitem{segmen} K. Kashwan y C. Velu. {\em Customer Segmentation Using Clustering and Data Mining Techniques}. International Journal of Computer Theory 
         and Engineering, Vol. 5 (6), págs. 856--860, 2013. 
     \bibitem{book2} M. Zaki y W. Meira. {\em Data minining and Analysis}. Cambridge University Press, 2014. 
-
+    \bibitem{book1} G. James, D. Witten, T. Hastie y R. Tibshirani. {\em An Introduction to Statistical Learning}.
+        Springer 2013.
+    }
 \end{thebibliography}
 \end{multicols}
 \end{document}
