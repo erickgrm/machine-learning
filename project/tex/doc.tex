@@ -5,7 +5,7 @@
 \usepackage[shortlabels]{enumitem}
 \setenumerate{itemsep=0pt}
 \usepackage{multicol}
-\usepackage[bottom=2.54cm, top=2.54cm,inner=2.4cm,outer=2.2cm]{geometry}
+\usepackage[bottom=2.2cm, top=2.1cm,inner=2.0cm,outer=1.8cm]{geometry}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true}
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
@@ -134,23 +134,28 @@ El conjunto de datos que usaremos en este trabajo es \emph{Individual Company Sa
 \cite{kaggle}. Los datos corresponden a las ventas por internet de un producto por parte de una 
 empresa\footnote{El conjunto se presenta anonimizado, no se conoce ni el producto ni el nombre de la empresa}. Cada
 renglón en el conjunto corresponde a la información de un cliente.  Se colectan 14 datos sobre el cliente y una bandera
-que señala si el cliente dado compró el producto o no. La tabla~\ref{tab:1} describe la estructura y naturaleza del conjunto de datos.
+que señala si el cliente compró el producto o no. Después de remover aquellos renglones en los que hay algún valor
+no conocido de algún atributo, el conjunto consta de 23558 muestras. La tabla~\ref{tab:1} describe la estructura y 
+naturaleza del conjunto de datos.
 
-
-Comenzamos el trabajo sobre este conjunto de datos con un minado superficial de datos (describiremos a grandes rasgos
-la distribución de cada valor de los atributos). Las técnicas de Aprendizaje Automatizado aplicadas fueron: 
+%Comenzamos el trabajo sobre este conjunto de datos con un minado superficial de datos (describiremos a grandes rasgos
+%la distribución de cada valor de los atributos). 
+Las técnicas de Aprendizaje Automatizado aplicadas fueron: 
 
 \begin{itemize}
-    \item[(a)] Segmentación de los clientes por medio de clustering.
+    \item[(a)] Segmentación de los clientes por medio de clustering \cite{segmen}.
     \item[(b)]  Ajuste de un modelo por regressión lógistica. 
     \item[(c)] Ajuste de un modelo por máquinas de soporte vectorial.
-    \item[(d)] Análisis de componentes principales PCA (y posterior re-entrenamiento de (a)--(c)). 
+    \item[(d)] Análisis de componentes principales PCA \cite{book2} (y posterior re-entrenamiento de (a)--(c)). 
 \end{itemize}
-Ya que la base de datos es mixta, es decir, tiene tanto datos númericos como categóricos,
-debemos hacer hincapié sobre la preparación y preprocesamiento de los
-datos. Se tomaron los siguientes pasos y consideraciones para el análisis. 
+
+
+Ya que la naturaleza de los datos es mixta, es decir, hay tanto datos númericos como categóricos,
+debemos comentar sobre la preparación y el preprocesamiento de ellos. Se tomaron los siguientes pasos y consideraciones para el análisis. 
 
 \begin{enumerate}[I.]
+    \item En la columa 0, correspondiente a la bandera de si el cliente compró el producto o no, se cambió `Y' por 1
+        y `N' por 0.
     \item La columna 3 correspondiente a la valuación de vivienda se re-escaló al intervalo [0,1]. 
     \item La columna 13 correspondiente a la probabilidad de comprar un auto nuevo se re-escaló a (0,1). 
     \item Se aplicó one-hot-encoding para sustituir todos aquellos valores categóricos por valores númericos. 
@@ -167,41 +172,42 @@ datos. Se tomaron los siguientes pasos y consideraciones para el análisis.
     \hline
     \bf Columna & \bf Atributo & \bf Tipo de dato & \bf\hspace{2.5cm} Valores\\
     \hline 
-    0 &\bf\small flag & categórico nominal &  Y, N; si compró el producto \\ % si  compró el producto y `N' en caso contrario\\
+    0 &\bf flag & categórico nominal &  Y, N si compró el producto, {\footnotesize(56.6\% y 43.4\% resp.)} \\
     \hline 
-    1 &\bf \small gender & categórico nominal & F, M\\ % si es mujer y `M' si es hombre\\ 
+    1 &\bf  gender & categórico nominal & F, M  {\footnotesize (39\% y 61\% resp.)}\\
     \hline
-    2 &\bf\small education & categórico ordinal & 0.lessHS, 1.HS, 2.SomeCollege, 3.Bach, 4.Grad \\ % Sin preparatoria terminada  \newline 1.HS: Preparatoria
-    %terminada \newline
-    %2.SomeCollege: Estudios universitarios incompletos\newline 3.Bach: grado universitario\newline 4.Grad: Con estudios
-    %de posgrado \\
+    2 &\bf education & categórico ordinal & 0.lessHS, 1.HS, 2.SomeCollege, 3.Bach,
+    4.Grad {\footnotesize (8.7\%, 21.4\%, 27.8\%, 25.4\% y 16.6\% resp.)}  \\ 
     \hline 
-    3 &\bf\small house\_val & númerico & en [0, 999999]\\
+    3 &\bf house\_val & númerico & en [0, 999999]\\
     \hline 
-    4 &\bf\small age & categórico nominal & 1\_Unk, 2upto25, 3upto35, 4upto45, 5upto55, 6upto65, 7above65\\ %Edad desconocida\newline 2upto25: Edad$\leq
-    %25$\newline 3upto35: Edad $\leq 35$\newline 4upto45: Edad $\leq 45$\newline 5upto55: Edad$\leq 55$\newline 6upto65:
-    %Edad$\leq 65$\newline 7above65:  Edad$\geq 65$ 
+    4 &\bf age & categórico nominal & 1\_Unk, 2upto25, 3upto35, 4upto45,
+     5upto55, 6upto65, 7above65 {\footnotesize(13\%, 2.5\%, 10.7\%, 21.1\%, 25.8\%, 16.9\% y 9.8\% resp.)}\\ 
     \hline 
-    5 &\bf\small online & categórico nominal & Y, N; el cliente tiene experiencia en compras por internet\\
+    5 &\bf online & categórico nominal &  Y, N el cliente tiene experiencia en compras por interne{\footnotesize (70.1\% y 29.9\% resp.)}; \\
     \hline
-    6 &\bf \small customer\_psy & categórico nominal & A--J; psicología del cliente, basaso en área de residencia\\
+    6 &\bf  customer\_psy & categórico nominal & A--J, psicología del cliente, basaso en área de residencia  {\footnotesize (3.4\%, 21.9\%, 
+            22.3\%, 5.6\%, 15.9\%, 9.3\%, 9.9\%, 1.6\%, 4.9\% y  5.1\% resp.)} \\
     \hline
-    7 &\bf\small marriage & categórico nóminal & Y, N\\
+    7 &\bf marriage & categórico nóminal & Y, N {\footnotesize (81.8\% y 18.2\% resp.)}\\
     \hline
-    8 &\bf\small children & categórico nominal & Y, N\\
+    8 &\bf children & categórico nominal & Y, N, U {\footnotesize (31\%, 47\% y 21\% resp.)} \\
     \hline 
-    9 &\bf\small occupation & categórico nominal & Professional, Blue Collar, Retired, SalesService,
-       Others, Farm\\
+    9 &\bf occupation & categórico nominal & Professional, Blue Collar, Retired, SalesService,
+    Others, Farm {\footnotesize (41.7\%, 16.9\%, 8.6\%, 28.2\%, 3.9\% y 0.7\% resp.)}\\
     \hline 
-    10 &\bf\small  mortgage & categórico nominal & 1Low, 2Med,  3High\\
+    10 &\bf  mortgage & categórico nominal & 1Low, 2Med,  3High {\footnotesize (69.9\%, 13.7\% y 16.3\% resp.)}\\
     \hline 
-    11 &\bf\small house\_owner & categórico nominal & Owner, Renter \\
+    11 &\bf house\_owner & categórico nominal & Owner, Renter {\footnotesize (79.7\% y 20.3\% resp.)}\\
     \hline 
-    12 &\bf\small region & categórico nominal & West, South, Midwest, Northeast, Rest\\
+    12 &\bf region & categórico nominal & West, South, Midwest, Northeast, Rest {\footnotesize (21.8\%, 39\%, 20.7\%,
+    17.8\% y 0.6\% resp.)}\\
     \hline 
-    13 &\bf\small car\_prob & categórico ordinal & 1--9; probabilidad de que comprará un auto nuevo\\
+    13 &\bf car\_prob & categórico ordinal & 1--9; probabilidad de que comprará un auto nuevo {\footnotesize (32.1\%,
+    18.8\%, 13.4\%, 7.1\%, 6.6\%, 5\%, 4.8\%, 6.3\% y 5.8\% resp.)}\\
     \hline 
-    14 &\bf\small fam\_income & categórico ordinal & A--L; nivel del ingreso familiar, L es el más alto\\
+    14 &\bf fam\_income & categórico ordinal & A--L; nivel del ingreso familiar, L es el más alto {\footnotesize (5\%,
+    4.8\%, 5.7\%, 10.5\%, 20.7\%, 17.4\%, 11\%, 6.8\%, 4.6\%, 4.6\%, 4.1\% y 4.6\% resp.)}\\
     \hline
 \end{tabular}}
 \end{center}
@@ -211,28 +217,33 @@ datos. Se tomaron los siguientes pasos y consideraciones para el análisis.
 
 \begin{multicols}{2}
 \section{Resultados}
+
+\subsection*{Clustering} Aplicamos el algoritmo K-means~\cite[Capítulo 13]{book2}.
 \section{Conclusiones}
 
 \begin{thebibliography}{10}
-    \bibitem{berry} Michael Berry y Gordon Linoff. {\em Data Mining Techniques For Marketing, Sales, and Customer Relationship Management.} 
+    \bibitem{berry} M. Berry y G. Linoff. {\em Data Mining Techniques For Marketing, Sales, and Customer Relationship Management.} 
         2da Edición. Wiley Publishing Inc., 2004. 
-    \bibitem{big} Jared Dean. {\em Big Data, Data Mining, and Machine Learning: Value Creation for Business, Leaders and
+    \bibitem{big} J. Dean. {\em Big Data, Data Mining, and Machine Learning: Value Creation for Business, Leaders and
         Practitioners}. John Wiley  Sons, 2014.
     \bibitem{tdk} TDK-technologies. {\em Business Intelligence, Data Mining and Machine Learning.} 
         Disponible en: \url{www.tdktech.com/tech-talks/business-intelligence-data-mining%-machine-learning}. 
-    \bibitem{cufo} Ayse Cufoglu. {\em User Profiling-A Short Review}. International Journal of Computer Applications,
+        \bibitem{cufo} A. Cufoglu. {\em User Profiling-A Short Review}. International Journal of Computer Applications,
         Volume 108-- No. 3, 2014.
-    \bibitem{faw} Tom Fawcett y Provost Foster. {\em Combining Data Mining and Machine Learning for Effective User
+    \bibitem{faw} T. Fawcett y P. Foster. {\em Combining Data Mining and Machine Learning for Effective User
         Profiling.} En KDD-96 Proceedings, págs. 8-13, AAAI, 1996.
-    \bibitem{discov} Alejandro Bellogín, Iván Cantador, Pablo Castells y Álvaro Ortigosa. {\em Discovering Relevant Preferences in a Personalised
+    \bibitem{discov} A. Bellogín, I. Cantador, P. Castells y Á. Ortigosa. {\em Discovering Relevant Preferences in a Personalised
         Recommender System using Machine Learning Techniques}, en Preference Learning Workshop, en la 8th
         European Conference on Machine  Learning and Principles and Practice of Knowledge Discovery in Databases, 2008. 
-    \bibitem{mah} Mahboobeh Harandi. {\em User Profiling in News Recommender Systems}. Disponible en:
+    \bibitem{mah} M. Harandi. {\em User Profiling in News Recommender Systems}. Disponible en:
         \url{https://www.ntnu.no/wiki/download/attachments/86731314/User%20Profiling%20NRS.pdf?version%3}
-        \bibitem{chen} Q. Chen, A. Norcio y J. Wang. {\em Neural Network Based Stereotyping for User Profiles}. Neural
-            Computing and Applications No. 9, págs. 259--265,  2000.
-        \bibitem{kaggle} Usuario Mickey. {\em Individual Company Sales Data.} Disponible en:
-            \url{https://www.kaggle.com/mickey1968/individual-company-sales-data}. 
+    \bibitem{chen} Q. Chen, A. Norcio y J. Wang. {\em Neural Network Based Stereotyping for User Profiles}. Neural
+        Computing and Applications No. 9, págs. 259--265,  2000.
+    \bibitem{kaggle} {\em Individual Company Sales Data.} Disponible en:
+        \url{https://www.kaggle.com/mickey1968/individual-company-sales-data}. 
+    \bibitem{segmen} K. Kashwan y C. Velu. {\em Customer Segmentation Using Clustering and Data Mining Techniques}. International Journal of Computer Theory 
+        and Engineering, Vol. 5 (6), págs. 856--860, 2013. 
+    \bibitem{book2} M. Zaki y W. Meira. {\em Data minining and Analysis}. Cambridge University Press, 2014. 
 
 \end{thebibliography}
 \end{multicols}
