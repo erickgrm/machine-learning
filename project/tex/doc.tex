@@ -18,7 +18,7 @@
 \newenvironment{Table}
   {\par\medskip\noindent\minipage{\linewidth}}
   {\endminipage\par\medskip}
-
+  \providecommand{\keywords}[1]{\textbf{\small \textit{Keywords:}} {\small\em #1}}
 \begin{document}
 \title{Proyecto de Aprendizaje Automatizado:\\
 {\Large Un estudio sobre el uso del internet para comprar bienes}}
@@ -27,32 +27,30 @@ erick\_phy@ciencias.unam.mx, MCIC, IIMAS--UNAM.}}
 
 \maketitle
 \begin{abstract}
-\noindent 
+    \noindent Presentamos una aplicación del Aprendizaje Automatizado y la Minería de Datos al comercio en línea, en
+    particular al problema de determinar el perfil de un cliente. El conjunto de datos considerado contiene la
+    información de los clientes de una empresa, para los cuales deseamos identificar los rasgos 
+    más importantes que determinan si comprarán el producto ofertado por la empresa. Para esta tarea empleamos las técnicas de
+\emph{one-step forward-selection} y regresión logística.  Posteiormente aplicamos el algoritmo de clustering KModes para
+segmentar el conjunto de clientes. Indicamos como un análisis más detallado de los clusters permitiría especificar 
+las características de los clientes que con mayor probabilidad comprarán el producto.
 \end{abstract}
+\keywords{E-commerce, regresión logística, forward-selection, datos mixtos, clustering, KModes}
 
-%\vspace{\baselineskip}
-%{\noindent \bf Contenido}
-%\begin{enumerate}
-%    \item[1.] Introducción 
-%    \item[2.] Antecedentes
-%    \item[3.] Metodología
-%    \item[4.] Resultados
-%    \item[5.] Conclusiones
-%    \item[6.] Referencias
-%\end{enumerate}
+\vspace{\baselineskip}
 
 \begin{multicols}{2}
 \section{Introducción}
-A lo largo de las últimas decadas las aplicaciones del Aprendizaje Automatizado han sido bastas y de
+A lo largo de las últimas décadas las aplicaciones del Aprendizaje Automatizado han sido bastas y de
 naturaleza muy diversa. Algunas de ellas, como lo son los Sistemas Automatizados de Recomendación y la Detección de
-Operaciones Irregulares, tienen el objetivo de apoyar las actividades comerciales de empresas que ofertan
+Operaciones Irregulares, tienen el objetivo de apoyar a las actividades comerciales de empresas que ofertan
 sus bienes y/o servicios por medio del internet. En este trabajo desarrollaremos una aplicación del Aprendizaje
 Automatizado a este rubro.
 
 Para una empresa que oferta algún producto o un servicio resulta muy valioso distinguir---de entre todas
 las personas a las que dirige su publicidad---a aquellas personas que con mayor probabilidad comprarán o
 contrarán su oferta. Determinar las características de los \emph{buenos clientes} y los \emph{malos clientes} es importante pues 
-le a la empresa la oportunidad de optimizar sus estrategias de publicidad y de administración de clientes. 
+le da a la empresa la oportunidad de optimizar sus estrategias de publicidad y de administración de sus clientes. 
 
 Con la proliferación de grandes datos sobre el consumo de bienes y contratación de servicios, y en particular con la enorme
 disponibilidad de datos de comercio en línea, las tareas de distinguir las características importantes de clientes es
@@ -64,13 +62,13 @@ con el objetivo de descubrir las características de las personas que con mayor 
 
 \section{Antecedentes}
 El uso de la Minería de Datos y el Aprendizaje Automatizado para apoyar actividades comerciales tiene un impacto
-importante y una larga tradición, vea por ejemplo \cite{berry}\cite{big}\cite{tdk}.  Dentro de este contexto, el 
+importante y una larga tradición, vea por ejemplo \cite{berry}\cite{big}.  Dentro de este contexto, el 
 \emph{perfilado de usuarios o clientes} es una de las tareas en que dichas disciplinas sobresalen.
 \cite{faw}\cite{discov}\cite{mah}\cite{chen} y \cite{segmen} exploran la aplicación del aprendizaje automatizado al
 perfilado de usarios o clientes.
 
 Un \emph{perfil} es un conjunto de información que funge como representación de una persona, usuario o cliente\cite{cufo}. La información que
-conforma un perfil puede ser de naturaleza diversa; puede incluir, por ejemplo, datos conductuales, rasgos físicos y rasgos
+conforma un perfil puede ser de naturaleza diversa; puede incluir, por ejemplo, datos conductuales, rasgos físicos y/o rasgos
 socio-económicos. La información que debe constituir un perfil típicamente se determina a partir del uso que
 se desea dar a dicho perfil. Por ejemplo, un perfil de un candidato a ingresar a alguna universidad
 incluye información sobre su rendimiento en niveles acádemicos precedentes, su rendimiento en exámenes de ingreso y, 
@@ -88,10 +86,10 @@ para maximizar sus ventas del producto. Sin embargo, puede resultar
 complicado determinar por adelantado y con precisión cuáles serán los rasgos del perfil que más influirán en la decisión
 de compra del producto. Frente a tal problema, el punto de vista más común en la actualidad es el de colectar la mayor información posible para
 formar un perfil provisional, para posteriormente determinar un perfil más
-preciso (en este caso, el perfil de las personas que con mayor probabilidad comprarán el producto). El  proceso de
-determinar dicho perfil se lleva a cabo por medio de técnicas de Minería de Datos y Aprendizaje Automatizado. 
+preciso (en este caso, el perfil de las personas que con mayor probabilidad comprarán el producto). 
 
-Entre las técnicas utilizadas para el perfilado de usuarios y/o clientes se encuentran los árboles de decisión,
+Entre las técnicas de Minería de Datos y Aprendizaje Automatizado
+utilizadas para el perfilado de usuarios y/o clientes se encuentran los árboles de decisión,
 los algoritmos de clustering y los  algoritmos de clasificación (vea \cite{mah}, donde  puede encontrar una tabla
 comprensiva sobre las técnicas usadas para esta tarea). Cada uno de estas tiene cualidades o desventajas que las hacen valiosas o
 inapropiadas dependiendo de sus requisitos y condiciones generales del problema. Los árboles de decisión tienen la característica de 
@@ -101,43 +99,10 @@ una segmentación de los usuarios/clientes, subrayando aquellas características
 (e.g. máquinas de soporte vectorial y redes neuronales) al ser combinadas con alguna técnica de selección de variables
 ofrecen también una forma de determinar los rasgos importantes de un perfil. A menudo, en combinación, estas y otras
 técnicas ayudan en la tarea de determinar el perfil más útil.
+%\end{multicols}
 
-\section{Metodología}
-El conjunto de datos que usaremos en este trabajo es \emph{Individual Company Sales Data}, disponible en www.kaggle.com~
-\cite{kaggle}. Los datos corresponden a las ventas por internet de un producto por parte de una 
-empresa\footnote{El conjunto se presenta anonimizado, no se conoce ni el producto ni el nombre de la empresa}. Cada
-renglón en el conjunto corresponde a la información de un cliente.  Se colectaron 14 datos sobre el cliente y una bandera
-que señala si el cliente compró el producto o no. Después de remover aquellos renglones en los que hay algún valor
-no conocido de algún atributo, el conjunto consta de 23558 muestras. La tabla~\ref{tab:1} describe la estructura y 
-naturaleza del conjunto de datos.
 
-Ya que la naturaleza de los datos es mixta, es decir, hay tanto datos númericos como categórico
-debemos comentar sobre la preparación y el preprocesamiento de ellos. Se tomaron los siguientes pasos de manera
-consecutiva. 
-
-\begin{enumerate}[I.]
-    \item Todos aquellos atributos de tipo categórico ordinal se cambiaron directamente por números en $[0,1]$
-        (e.g., en fam\_income `A' corresponde a 0.0 y `L' a 1.0). 
-    \item house\_val se re-escaló al intervalo [0,1]. 
-    \item Para aquellos atributos categóricos binarios (e.g., `gender') se cambiaron los valores originales a 1 y 0. 
-    \item Para aquellos atributos de tipo categórico nominal que no son binarios se aplicó one-hot-encoding (sin
-            embargo, el punto donde esto se hace depende de la técnica de aprendizaje con la que se trabaja, vea el
-        código asociado\footnote{github}). 
-\end{enumerate}
-%Comenzamos el trabajo sobre este conjunto de datos con un minado superficial de datos (describiremos a grandes rasgos
-%la distribución de cada valor de los atributos). 
-Se realizaron las siguientes tareas de Aprendizaje Automatizado el sobre conjunto de datos.
-
-\begin{itemize}
-    \item[(a)] Se halla el subconjunto de atributos \emph{más significativos} mediante un modelo de regresión logística
-        y forward-selection~\cite[Cap. 6]{book1}.
-    \item[(b)] Se aplica un Análisis de Componentes Principales PCA \cite{book2} y posteriormente se ajusta un modelo de regresión
-        logística (seleccionado mediante validación cruzada). 
-    \item[(c)] Se explora la segmentación de los clientes por medio de clustering (K-means) \cite{segmen}.
-\end{itemize}
-\end{multicols}
-
-\begin{table}
+\begin{table*}[t]
 \begin{center}
 \scalebox{0.85}{
 \begin{tabular}{|c|c|c|p{10cm}|}
@@ -185,9 +150,42 @@ Se realizaron las siguientes tareas de Aprendizaje Automatizado el sobre conjunt
 \end{center}
 \caption{\small La estructura de la base de datos.}
 \label{tab:1}
-\end{table}
+\end{table*}
 
-\begin{multicols}{2}
+\section{Metodología}
+El conjunto de datos que usaremos en este trabajo es \emph{Individual Company Sales Data}, disponible en www.kaggle.com~
+\cite{kaggle}. Los datos corresponden a las ventas por internet de un producto por parte de una 
+empresa\footnote{El conjunto se presenta anonimizado, no se conoce ni el producto ni el nombre de la empresa}. Cada
+renglón en el conjunto corresponde a la información de un cliente.  Se colectaron 14 datos sobre el cliente y una bandera
+que señala si el cliente compró el producto o no. Después de remover aquellos renglones en los que hay algún valor
+no conocido de algún atributo, el conjunto consta de 23558 muestras. La tabla~\ref{tab:1} describe la estructura y 
+naturaleza del conjunto de datos.
+
+Ya que la naturaleza de los datos es mixta, es decir, hay tanto datos númericos como categóricos
+debemos comentar sobre la preparación y el preprocesamiento de ellos. Se tomaron los siguientes pasos de manera
+consecutiva. 
+
+\begin{enumerate}[I.]
+    \item Todos aquellos atributos de tipo categórico ordinal se cambiaron directamente por números en $[0,1]$
+        (e.g., en fam\_income `A' corresponde a 0.0 y `L' a 1.0). 
+    \item house\_val se re-escaló al intervalo [0,1]. 
+    \item Para aquellos atributos categóricos binarios (e.g., `gender') se cambiaron los valores originales a 1 y 0. 
+    \item Para aquellos atributos de tipo categórico nominal que no son binarios se aplicó one-hot-encoding (sin
+            embargo, el punto donde esto se hace depende de la técnica de aprendizaje con la que se trabaja, vea el
+        código asociado\footnote{github}). 
+\end{enumerate}
+%Comenzamos el trabajo sobre este conjunto de datos con un minado superficial de datos (describiremos a grandes rasgos
+%la distribución de cada valor de los atributos). 
+Se realizaron las siguientes tareas de Aprendizaje Automatizado el sobre conjunto de datos.
+
+\begin{itemize}
+    \item[(a)] Se halla el subconjunto de atributos \emph{más significativos} mediante un modelo de regresión logística
+        y forward-selection~\cite[Cap. 6]{book1}.
+    \item[(b)] Se aplica un Análisis de Componentes Principales PCA \cite{book2} y posteriormente se ajusta un modelo de regresión
+        logística (seleccionado mediante validación cruzada). 
+    \item[(c)] Se explora la segmentación de los clientes por medio de clustering (K-modes) \cite{kmodes}.
+\end{itemize}
+
 \section{Resultados}
 El conjunto de 23558 renglones se particionó en un conjunto de entrenamiento y otro de prueba con la
 proporción 70--30\%. En (a) y (b) se trabaja con el conjunto de entrenamiento para la selección de variables. El
@@ -280,31 +278,90 @@ es casi siempre díficil interpretar su resultado. No es fácil extraer cuáles 
 Su valor en nuestro caso, es verificar si después de su aplicación, PCA mejora las cualidades de un modelo de regresión
 logística.
 
-Despues de aplicar one-hot-encoding al conjunto de datos de entrenamiento se cuenta con 51 columnas de
+Despues de aplicar one-hot-encoding al conjunto de datos de entrenamiento se cuenta con 42 columnas de
 atributos. Se aplica PCA para reducir su dimensionalidad. Aplicamos la versión PCA(A) donde $A\in (0,1)$ es la cantidad
 de varianza que deseamos cubrir al reducir la dimensión. Por ejemplo, para $A=0.85$ se pasa de 42 dimensiones a sólo 18.
 Para cada valor de $A$, se genera la matriz (de dimensión reducida) y con ella se encuentra el mejor modelo de regresión
 logística seleccionado por validación cruzada (\emph{10-fold}). Comparamos los modelos obtenidos por su AUC. 
-La figura~\ref{fig:pca} muestra el comportamiento de los modelos generados. 
+La figura~\ref{fig:pca} muestra el comportamiento de la AUC de los modelos generados con respecto a $A$.  
 
+\begin{Figure}
+    \centering
+    \includegraphics[width=1\textwidth]{PCA}
+    \captionof{figure}{\em \footnotesize Área bajo la curva ROC contra proporción de varianza $A$ explicada por PCA}
+    \label{fig:pca}
+\end{Figure}
+La máxima AUC se alcanza para $A=0.95$ y para tal valor la dimensión se redujó de 42 a 26. Para lograr un balance entre
+maximizar AUC y disminuir la dimensión lo más posible, proponemos tomar como mejor modelo a aquel correspondiente a
+$A=0.90$. 
 
+Para $A=0.90$ la dimensión se redujó de 42 a 21, y el AUC alcanzado es de 0.677. Para el modelo de regresión logística
+correspondiente, el score sobre el conjunto de prueba es de 0.701 y la matriz de confusión sobre el conjunto de prueba
+es:
 
-
-
+\[\begin{bmatrix}
+        & Predicted 0 & Predicted  1 \\
+   True 0 & 1833 & 1272\\
+   True 1 & 843 &3120
+ \end{bmatrix}\]
 
 
 \subsubsection*{(c) Segmentación vía Clustering} 
-Aplicamos el algoritmo K-means~\cite[Cap. 13]{book2}.
-\section{Conclusiones}
+Aplicamos el algoritmo K-modes, el cual es un algoritmo de clustering basado en K-means pero que está diseñado para
+poder ser usado con conjuntos de datos mixtos\cite{kmodes}. Usaremos el conjunto de datos limitado al conjunto de atributos más
+importantes descubierto en (a). 
 
+Investigamos el resultado de  segmentar a los clientes en dos clusters, buscando capturar los grupos 
+`flag' = 1 y `flag= 0' (i.e., separar compradores de no compradores). Se ejecutó Kmodes en cinco ocasiones obteniéndose 126657.0
+el menor valor de costo\footnote{En KModes la función de costo está determinada como una combinación de la distancia
+    Euclidiana entre atributos númericos y una medida de similaridad entre atributos categóricos, vea\cite[Sec.
+2.2]{kmodes}.}. Dicho valor genera dos clusters identificados por las etiquetas 0 y 1. Para juzgar si esta segmentación
+refleja de alguna forma la división buscada en compradores y no compradores, podemos comparar el etiquetado del
+clustering contra la columna 'flag' (n.b. recuerde que el etiquetado en clustering no es siempre el mismo sobre
+    diferentes ejecuciones; en este punto se debe checar cómo se corresponden 1 y 0 del etiquetado del
+clustering con el 1 y 0 de 1flag').
+
+Los clusters obtenidos por KModes (usando los 8 atributos más importantes) etiquetan correctamente a 14428 de las
+muestras, mientras que se equivocan en las 9130  restantes. Esto da un rendimiento (score) para KModes de 0.612.
+
+\section{Conclusiones}
+Por medio de forward-selection y regresión logística hallamos que para determinar si un cliente comprará el producto que
+ofrece la empresa basta considerar los 8 atributos
+\begin{center} \em customer\_psy, age, education, online, gender, 
+car\_prob, mortgage, occupation
+\end{center}
+Estos son los atributos que constituyen el perfil de un cliente. Dado un cliente nuevo, la empresa debe colectar los
+valores de estos atributos para posteriormente hacer una predicción sobre si el cliente comprará el producto o no usando el 
+modelo entrenado para este trabajo. En 
+La tabla~\ref{tab:fs} también puede orientar la decisión de qué atributos considerar si por alguna razón no se cuenta
+con todos los 8 mejores. 
+
+En (c) se aplicó la técnica de clustering considerando únicamente los 8 atributos más importantes. Un análisis
+exploratorio  de los clusters resultantes, y la prueba con segmentaciones en más de dos clusters, determinaría cuáles
+valores específicos de los atributos maximizan la probabilidad de que un cliente dado comprará el producto. El resultado
+de tal análisis podrá entonces ser usado para mejorar la estrategia publicitaria del producto.
+
+En el presente trabajo hemos mostrado un ejemplo de cómo se pueden aplicar algunas técnicas de Aprendizaje Automatizado
+a un problema de comercio en línea. La extensión está aplicación puede tomar muchas direcciones. En el aspecto técnico,
+algunas modificaciones al trabajo aquí presentado incluyen:
+
+\begin{enumerate}
+    \item[(i)] Usar la técnica \emph{best-subset}\cite[Cap. 6]{book1} en vez de forward-selection en (a). Esta
+        última  no explora todos los $2^{14}-1$ subconjuntos de atributos posibles. La desventaja es que la
+        complejidad del algoritmo se vuelve entonces exponencial. 
+    \item[(ii)] Considerar otros modelos de clasificación para reemplazar a la regresión logística en (a)\footnote{
+        Preliminarmente se consideró máquinas de soporte vectorial, pero su desempeño no fue considerablemente mejor y
+    su entrenamiento es muy lento.}. 
+    \item[(iii)] Para (c), aplicar la técnica CENG\cite{kuri} para codificar numéricamente todos los atributos de tipo
+        categórico. CENG propone hacer esto minimizando la probabilidad de modificar los patrones (covarianzas) originales 
+        en el conjunto de datos.
+\end{enumerate}
 \begin{thebibliography}{10}
         {\small 
     \bibitem{berry} M. Berry y G. Linoff. {\em Data Mining Techniques For Marketing, Sales, and Customer Relationship Management.} 
         2da Edición. Wiley Publishing Inc., 2004. 
     \bibitem{big} J. Dean. {\em Big Data, Data Mining, and Machine Learning: Value Creation for Business, Leaders and
         Practitioners}. John Wiley  Sons, 2014.
-    \bibitem{tdk} TDK-technologies. {\em Business Intelligence, Data Mining and Machine Learning.} 
-        Disponible en: \url{www.tdktech.com/tech-talks/business-intelligence-data-mining%-machine-learning}. 
         \bibitem{cufo} A. Cufoglu. {\em User Profiling-A Short Review}. International Journal of Computer Applications,
         Volume 108-- No. 3, 2014.
     \bibitem{faw} T. Fawcett y P. Foster. {\em Combining Data Mining and Machine Learning for Effective User
@@ -323,8 +380,12 @@ Aplicamos el algoritmo K-means~\cite[Cap. 13]{book2}.
     \bibitem{book2} M. Zaki y W. Meira. {\em Data minining and Analysis}. Cambridge University Press, 2014. 
     \bibitem{book1} G. James, D. Witten, T. Hastie y R. Tibshirani. {\em An Introduction to Statistical Learning}.
         Springer 2013.
+    \bibitem{kmodes} Z.  Huang. {\em Clustering large data sets with mixed numeric and categorical values}. En Proceedings of the First Pacific Asia 
+        Knowledge Discovery and Data Mining Conference, págs. 21--34, 1997.
+    \bibitem{kuri} A. Kuri. {\em Categorical Encoding with Neural Networks and Genetic Algorithms}. Recent Researches in
+        Applied Informatics: Proceedings of AICT '15, WSEAS Press, 2015.
     }
 \end{thebibliography}
-\end{multicols}
+    \end{multicols}
 \end{document}
 
