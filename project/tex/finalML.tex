@@ -1,0 +1,167 @@
+\documentclass{beamer}
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amssymb,amsthm}
+\usetheme{Luebeck}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+\title[Proyecto final]{Proyecto: Uso del internet para solicitar/comprar bienes y servicios}
+\subtitle{Aprendizaje Automatizado, 2019-II}
+\author{Erick García Ramírez}
+\institute{MCIC--IIMAS, UNAM}
+\date{13 de Junio de 2019}
+
+\begin{document}
+\begin{frame}
+\maketitle
+\end{frame}
+\begin{frame}
+    \frametitle{Aspectos generales}
+    \begin{itemize}
+        \item Un estudio sobre comercio en línea. 
+        \item Base de datos con perfiles socio-económicos de individuos e información sobre su actividad de
+            compras en internet. 
+        \item {\bf Objetivos generales}: conocer sobre el perfil de compradores y generar un modelo predictivo. 
+        \end{itemize}
+\end{frame} 
+
+\begin{frame}[fragile]
+    \frametitle{La base de datos} 
+    \begin{itemize}
+        \item \emph{Individual Company Sales: disponible en Kaggle.com }
+        \item 14 atributos de clientes, una bandera: `Y' si compró el producto y `N' en caso contrario
+        \item 13558 renglones
+        \begin{center}
+            \includegraphics[width=0.9\textwidth]{py1}
+        \end{center}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{(a) forward-selection y regresión logística}
+    \begin{itemize}
+        \item Para cada $n\in \{1,\dots, 14\}$, hallar (acumulativamente) los mejores $n$ atributos
+        \item Mejores $n$ atributos si generan el modelo de {\bf regresión logística} con máxima {\bf AUC}
+        \item No checa  todos los posibles $2^{14}-1$ subconjuntos de atributos (pero la complejidad se mantiene baja)
+    \end{itemize}
+    \vspace{-0.8\baselineskip}
+        \begin{center}
+            \includegraphics[width=0.7\textwidth]{AUC}
+        \end{center}
+    \end{frame} 
+
+    \begin{frame}[fragile]
+    \frametitle{(a) forward-selection y regresión logística}
+\begin{center}
+    \scalebox{0.8}{
+\begin{tabular}{|c|c|c|}
+    \hline
+    $n$ & \bf $n$ atributos más importantes & \bf AUC \\
+    \hline
+    1 & customer\_psy & 0.626\\
+    \hline
+    2 &  age & 0.640\\
+    \hline
+    3 & education & 0.651\\
+    \hline
+    4 & online & 0.659\\
+    \hline
+    5 & gender & 0.671\\
+    \hline
+    6 & car\_prob& 0.675\\
+    \hline
+    7 & mortgage & 0.678\\
+    \hline
+    \bf 8 & \bf occupation &\bf 0.681\\
+    \hline
+    9 & child & 0.682\\
+    \hline
+    10 & house\_val & 0.682\\
+    \hline
+    11 & house\_owner & 0.682\\
+    \hline
+    12 & fam\_income & 0.681\\
+    \hline
+    13 & region & 0.682\\
+    \hline
+    14 & \emph{todas} & 0.684\\
+    \hline
+\end{tabular}}
+
+Acumulando hacia abajo.
+        \end{center}
+\end{frame} 
+
+\begin{frame}[fragile]
+    \frametitle{Mejores 8 atributos y modelo predictivo}
+    \begin{center} \em customer\_psy, age, education, online, gender,
+car\_prob, mortgage, occupation
+\end{center}
+\begin{itemize}
+\item El modelo de regresión logística correspondiente alcanza un score de 0.706 sobre el conjunto de prueba.
+\item La matriz de confusión sobre el conjunto de prueba es:
+ 
+\[\begin{bmatrix}
+        & Predicted 0 & Predicted  1 \\
+   True 0 & 1830 & 1275\\
+   True 1 & 801 &3162
+ \end{bmatrix}\]
+ \end{itemize}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{(b) ¿Se obtiene un mejor modelo usando PCA?}
+    \begin{itemize}
+        \item PCA reduce la dimensionalidad encontrando las componentes (ejes) que observan la mayor varianza entre los
+            atributos.
+        \item Después de codificar todos los atributos categóricos, la matriz de atributos tiene dimensión 42
+            (columnas).
+        \item Se prueban diferentes valores de la proporción $A$ de varianza explicada. Se busca el modelo con mayor
+            AUC para cada valor de $A$.  
+            \vspace{-0.5\baselineskip}
+        \begin{center}
+            \includegraphics[width=0.65\textwidth]{PCA}
+        \end{center}
+    \end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{Modelo a partir de PCA}
+    \begin{itemize}
+        \item Se toma mejor modelo con $A=0.90$. Dimensión reducida de 42 a 21. 
+        \item El modelo de regresión logística alcanza un score de 0.701 sobre el conjunto de prueba 
+        \item la matriz de confusión sobre el conjunto de prueba es:
+
+\[\begin{bmatrix}
+        & Predicted 0 & Predicted  1 \\
+   True 0 & 1833 & 1272\\
+   True 1 & 843 &3120
+ \end{bmatrix}\]
+ \item Es díficil determinar cuáles atributos reflejan las 21 dimensiones encontradas por PCA.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}%[fragile]
+        \frametitle{(c) Segmentación por clustering}
+        \begin{itemize}
+            \item Dividir a los clientes en grupos de acuerdo a sus características
+            \item Objetivo: distinguir clientes por medio de sus rasgos entre compradores y no compradores
+            \item Se usan sólo los 8 atributos más importantes
+            \item Aplicar KModes, una variante de KMeans para datos mixtos.
+                \[{\tt kmodes = KModes(n\_clusters=2, init='Huang', n\_init=5)}\]
+
+            \item Se hallan dos clusters con centros con coordenadas mixtas. 
+            \item Es un poco complicado interpretar los clusters. El clustering no es suficientemente bueno para
+                distiguir compradores. 
+        \end{itemize}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Trabajo futuro}
+        \begin{itemize}
+            \item Muchas variantes se pueden probar para mejorar el modelo predictivo
+            \item Usar best-subset en vez de forward-selection
+            \item Extraer más información del clustering, probar particiones en más clusterings considerando diferentes
+                variables
+            \item Probar otras codificaciones de los atributos categóricos
+        \end{itemize}
+    \end{frame}
+    
+\end{document}
