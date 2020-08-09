@@ -21,7 +21,7 @@
   \providecommand{\keywords}[1]{\textbf{\small \textit{Keywords:}} {\small\em #1}}
 \begin{document}
 \title{Proyecto de Aprendizaje Automatizado:\\
-{\Large Un estudio sobre el uso del internet para comprar bienes}}
+{\Large Uso del internet para comprar bienes: perfilado de clientes}}
 \author{Erick García Ramírez\footnote{
 erick\_phy@ciencias.unam.mx, MCIC, IIMAS--UNAM.}}
 
@@ -171,9 +171,7 @@ consecutiva.
     \item house\_val se re-escaló al intervalo [0,1]. 
     \item Para aquellos atributos categóricos binarios (e.g., `gender') se cambiaron los valores originales a 1 y 0. 
     \item Para aquellos atributos de tipo categórico nominal que no son binarios se aplicó one-hot-encoding (sin
-            embargo, el punto donde esto se hace depende de la técnica de aprendizaje con la que se trabaja, vea el
-        código asociado\footnote{github}). 
-\end{enumerate}
+        embargo, el punto donde esto se hace depende de la técnica de aprendizaje con la que se trabaja)\end{enumerate}
 %Comenzamos el trabajo sobre este conjunto de datos con un minado superficial de datos (describiremos a grandes rasgos
 %la distribución de cada valor de los atributos). 
 Se realizaron las siguientes tareas de Aprendizaje Automatizado el sobre conjunto de datos.
@@ -187,6 +185,9 @@ Se realizaron las siguientes tareas de Aprendizaje Automatizado el sobre conjunt
 \end{itemize}
 
 \section{Resultados}
+{\small (El código del presente trabajo se encuentra en:
+\url{https://github.com/erickgrm/machine-learning/tree/master/project})}
+
 El conjunto de 23558 renglones se particionó en un conjunto de entrenamiento y otro de prueba con la
 proporción 70--30\%. En (a) y (b) se trabaja con el conjunto de entrenamiento para la selección de variables. El
 conjunto de prueba se usa únicamente para observar la bondad del mejor modelo encontrado con respecto a predicciones
